@@ -1,7 +1,6 @@
-# betaCohort_GroupProject
-## Non-profit Partner Development Project for Fresh Start Women's Foundation 
-View the application online [here](https://fswfmsgs.herokuapp.com).<br>
-View the original scope/requirements document [here](https://docs.google.com/document/d/1ur9KTJraJvByD5bO8_0gqMw57V0Y3qJrpD0njT5I-XM/edit?usp=sharing)
+# Twilio Messaging Demo App for Individual & Group Texting
+
+View the application online here: <br>
 
 ## Table of Contents
 
@@ -12,9 +11,8 @@ View the original scope/requirements document [here](https://docs.google.com/doc
 
 ---
 ## Description
-This application was developed by a team of student developers enrolled in the first Java Programming Bootcamp held by Grand Canyon University in the Spring 2018.<br>
-The application allows FSWF staff to send text messages to their clients in the form of a reminder or simiple message.<br>
-The application allows admins to not only send text messages, but also administer customizable parts of the application an users.<br>
+This application was developed as an extended branch of the original messaging app created by a team of student developers enrolled in the first Java Programming Bootcamp held by Grand Canyon University in the Spring of 2018.<br>
+The intent of the project will be utilize the messaging/communication services from Twilio.com.<br>
 
 ---
 ## Technologies
@@ -63,9 +61,6 @@ The application allows admins to not only send text messages, but also administe
 ---
 ## Development Team:<br>
 
-Joan Adams<br>
-Koddie Becker<br>
-Mark Feinman<br>
 Ted Stark
 
 ---
