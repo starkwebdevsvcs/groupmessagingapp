@@ -8,8 +8,13 @@ module.exports = function(passport){
   passport.use(new localStrategy(function(username, password, done){
     //Match single userName
     let query = {username:username};
+    console.log(query);
     User.findOne(query, function(err, user){
-      if(err) throw err;
+
+      if(err) {
+        console.log(error);
+        throw err;
+      }
       if(!user){
         return done(null,false, {message: 'Username not found!'});
       }

@@ -7,15 +7,17 @@ const passport = require('passport');
     // DOM: Show '/' Page
     router.get('/', function(req,res){
       res.render('page_login', {
-        title: 'Login Page'
+        title: 'Login Page',
+        appVersion: req.app.locals.appVersion,
+        copyright: req.app.locals.copyright,
       });
     });
-    // DOM: Show '/' Page
-    router.get('/koddie', function(req,res){
-      res.render('koddie_navbar', {
-        title: 'Koddie"s Page'
-      });
-    });
+    // // DOM: Show '/' Page
+    // router.get('/koddie', function(req,res){
+    //   res.render('koddie_navbar', {
+    //     title: 'Koddie"s Page'
+    //   });
+    // });
     // // DOM: Show 'Reminders' Page
     // router.get('/reminders', function(req,res){
     //     res.render('page_reminders', {

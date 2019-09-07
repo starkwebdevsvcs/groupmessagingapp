@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title FSWF Messaging App (2)
+        title SWDS Messaging App (2)
         meta(name='viewport', content='width=device-width, initial-scale=1')
         link(rel='shortcut icon', type='image/png', href='/images/favicon.ico')
         link(href='//fonts.googleapis.com/css?family=Raleway:400,300,600', rel='stylesheet', type='text/css')
@@ -34,8 +34,6 @@ html
                                 a.nav-link(href='/reminderdd') Reminder Msg Admin
                         li.nav-item
                             a.nav-link(href='/login/logout') Logout
-            .image.logo
-                img(src='/images/25yrlogo.png')
             br
             != messages('include_msgs', locals)
             if errors
@@ -52,6 +50,6 @@ html
             hr
             footer
                 .myfooter.monkey-l
-                    p Copyright ©2018 Fresh Start Women's Foundation
+                    p #{copyright}
                 .myfooter.monkey-r
-                    p 2018/04/25.v01
+                    p #{appVersion}

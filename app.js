@@ -25,6 +25,10 @@ let twilioSID = '';
 let twilioStatus= '';
 let returnPage = '';
 
+// Global App Variables
+app.locals.appVersion = '2019/09/06.v0.0.1';
+app.locals.copyright = '©2019 Stark Web Development Services';
+
 //Set Public folder path
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -106,14 +110,14 @@ app.set('view engine', 'pug');
     });
 
 // Route variables
-    let twilioRouter = require('./routes/routes_twilio');
-    let rmndrRouter = require('./routes/routes_reminders');
-    let msgRouter = require('./routes/routes_messages');
-    let usersRouter = require('./routes/routes_users');
-    let appRouter = require('./routes/routes_app');
-    let loginRouter = require('./routes/routes_login');
-    let groupddRouter = require('./routes/routes_groupdd');
-    let remddRouter = require('./routes/routes_reminderdd');
+let appRouter = require('./routes/routes_app');
+let groupddRouter = require('./routes/routes_groupdd');
+let loginRouter = require('./routes/routes_login');
+let msgRouter = require('./routes/routes_messages');
+let remddRouter = require('./routes/routes_reminderdd');
+let rmndrRouter = require('./routes/routes_reminders');
+let twilioRouter = require('./routes/routes_twilio');
+let usersRouter = require('./routes/routes_users');
     // let histRouter = require('./routes/routes_history');
 
 // Route statements

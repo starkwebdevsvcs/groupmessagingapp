@@ -11,7 +11,9 @@ let User = require('../models/user');
     router.get('/disclaimer',function (req,res) {
         req.flash('success alert-dismissible fade show', 'You are logged in!');
         res.render('page_login2', {
-            title: 'Disclaimer:'
+            title: 'Disclaimer:',
+            appVersion: req.app.locals.appVersion,
+            copyright: req.app.locals.copyright,    
         });
     });
 

@@ -2,7 +2,7 @@
 
 // Module dependencies
 var app = require('../app');
-var debug = require('debug')('fswf-msgapp:server');
+var debug = require('debug')('groupmessagingapp:server');
 var http = require('http');
 
 // Get port from environment and store in Express.

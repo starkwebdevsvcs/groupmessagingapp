@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const dateformat = require('dateformat');
-// const moment = require('moment');
 const moment = require('moment-timezone');
 const delay = require('delay');
 
@@ -60,6 +59,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
     });
 
     // DOM: Show History/Log Page
+
     router.get('/history', function(req,res){
         let messages = [];
         // let frmtdDate = moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD');
