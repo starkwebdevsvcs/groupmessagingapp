@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
   mongoose.connect(env.DB_STRING);
   //Check DB connection
   db.once('open', function(err){
-    console.log('Connection made to Database: '+env.DB_NAME);
+    console.log('Connection made to Database: ' + env.DB_NAME);
   });
   //Check for DB errors
   db.on('error', function(err){
@@ -103,11 +103,11 @@ app.set('view engine', 'pug');
 
 // Routes
     // DOM: Show '/' Page
-    app.get('/datepicker', function(req,res){
-      res.render('datepicker', {
-        title: 'DatePicker'
-      });
-    });
+    // app.get('/datepicker', function(req,res){
+    //   res.render('datepicker', {
+    //     title: 'DatePicker'
+    //   });
+    // });
 
 // Route variables
 let appRouter = require('./routes/routes_app');

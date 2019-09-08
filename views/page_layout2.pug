@@ -20,18 +20,23 @@ html
                 ul.navbar-nav
                     if user
                         li.nav-item
-                            a.nav-link(href='/reminders') Reminders
+                            //- a.nav-link(href='/reminders') Reminders
+                            a.nav-link(href='/messages/group') Group Messages
                         li.nav-item
-                            a.nav-link(href='/messages') Messages
+                            a.nav-link(href='/messages/single') Single Messages
                         li.nav-item
-                            a.nav-link(href='/twilio/history') Text Msg History
+                            a.nav-link(href='/messages/history') Message History
                         if user.role=='admin'
                             li.nav-item
-                                a.nav-link(href='/users') User Admin
+                                a.nav-link(href='/admin/fixedmsg') Message Admin
                             li.nav-item
-                                a.nav-link(href='/groupdd') Workgroup Admin
+                                a.nav-link(href='/admin/customers') Customer Admin
                             li.nav-item
-                                a.nav-link(href='/reminderdd') Reminder Msg Admin
+                                a.nav-link(href='/admin/teams') Team Admin
+                            li.nav-item
+                                a.nav-link(href='/admin/groups') Group Admin
+                            li.nav-item
+                                a.nav-link(href='/admin/users') User Admin
                         li.nav-item
                             a.nav-link(href='/login/logout') Logout
             br

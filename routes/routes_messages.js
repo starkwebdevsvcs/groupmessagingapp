@@ -6,7 +6,9 @@ require('dotenv').load();
 let env = process.env;
 
 // Bring in models
-let GroupDD = require('../models/groupdd');
+let custGroup = require('../models/models_customergroup');
+
+
 
 // Require the Twilio module and create a REST client
 const twilio = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
@@ -16,19 +18,11 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-    // DOM: Show 'Send Messages' Page
-    router.get('/', function(req,res){
-        txtToPhone='';
-        txtFullMsg='';
-        GroupDD.find({}, function(err, groupdds){
-            if(err){
-                console.log(err);
-            } else {
-                res.render('page_messages', {
-                    groupdds:groupdds,
-                    title: 'Send a Message'
-                });
-              }
+
+    // DOM: Show Group Message
+    router.get('/group', function(req,res){
+        res.render('page_groupmsgs', {
+            title: 'Send A Group Message'
         });
     });
 
@@ -46,6 +40,23 @@ router.use(bodyParser.urlencoded({ extended: false }));
         returnPage = 'messages';
         res.redirect('/messages/preview');
     });
+    
+    // DOM: Show 'Send Messages' Page
+    router.get('/', function(req,res){
+        txtToPhone='';
+        txtFullMsg='';
+        GroupDD.find({}, function(err, groupdds){
+            if(err){
+                console.log(err);
+            } else {
+                res.render('page_messages', {
+                    groupdds:groupdds,
+                    title: 'Send a Message'
+                });
+              }
+        });
+    });
+
 
 module.exports = router;
 
