@@ -1,0 +1,35 @@
+extends page_layout2
+
+block content
+    if user && user.role=='admin'
+        .container
+            h1 #{title}
+            br
+            hr
+            h4 Add a Standard Message:
+            br
+            form(role='form' method='POST' action='/admin/messages/add')
+                .form-group
+                    label(for='message') Message Text:
+                    input.form-control(class='mlen', name='message', type='text', placeholder='' required)
+                
+                input.btn.btn-info.btn-fswf1(type="submit", value="Create Message")
+            br
+            hr
+        .container
+            br
+            h4 Current Workgroup List:
+            table.table
+                thead
+                    tr
+                        th(scope='col') Message
+                        th(scope='col') Active
+                        th(scope='col') Actions
+                tbody
+                    each message, i in messages
+                        tr
+                            td= message.text
+                            td= message.active
+                            td
+                                a.btn.btn-info.btn-fswf3(href="/admin/messages/edit/" + message._id) Edit
+                                button.btn.btn-danger.btn-sm.deleteStdMessage(href="#", data-id=message._id) Delete

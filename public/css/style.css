@@ -158,7 +158,7 @@ td {
   overflow: visible;
 }
 .messages {
-  max-width: 50%;
+  /* max-width: 50%; */
 }
 .delete-msg{
   color: red;
@@ -176,9 +176,13 @@ td {
 }
 
 .form-check-inline {
-  margin: 20px 0 0 20px;
+  /* margin: 20px 0 0 20px; */
 }
 
 .form-check-label {
   margin:  0 5px 0 15px;
+}
+
+.alert-dismissible .close {
+  padding: 0.45rem 1.25rem;
 }

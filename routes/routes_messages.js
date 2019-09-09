@@ -7,8 +7,7 @@ let env = process.env;
 
 // Bring in models
 let custGroup = require('../models/models_customergroup');
-
-
+let stdMessage = require('../models/models_standardmessage');
 
 // Require the Twilio module and create a REST client
 const twilio = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
@@ -19,12 +18,19 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
 
-    // DOM: Show Group Message
-    router.get('/group', function(req,res){
-        res.render('page_groupmsgs', {
-            title: 'Send A Group Message'
-        });
+// DOM: Show Group Message
+router.get('/group', function(req,res){
+    stdMessage.find({}, function(err, standardMessages){
+        if(err){
+            console.log(err);
+        } else {
+            res.render('page_groupmsgs', {
+                standardMessages: standardMessages,
+                title: 'Send A Group Message'
+            });
+            }
     });
+});
 
     // DOM: Show "Preview Page" for Messages
     router.get('/preview', function(req,res){

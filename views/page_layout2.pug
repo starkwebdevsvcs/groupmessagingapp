@@ -25,10 +25,10 @@ html
                         li.nav-item
                             a.nav-link(href='/messages/single') Single Messages
                         li.nav-item
-                            a.nav-link(href='/messages/history') Message History
+                            a.nav-link(href='/messages/sent') Sent Messages
                         if user.role=='admin'
                             li.nav-item
-                                a.nav-link(href='/admin/fixedmsg') Message Admin
+                                a.nav-link(href='/admin/messages') Message Admin
                             li.nav-item
                                 a.nav-link(href='/admin/customers') Customer Admin
                             li.nav-item
@@ -40,7 +40,7 @@ html
                         li.nav-item
                             a.nav-link(href='/login/logout') Logout
             br
-            != messages('include_msgs', locals)
+            != expressMessages('include_msgs', locals)
             if errors
               each error, i in errors
                 div.alert.alert-danger.alert-dismissible.fade.show #{error.msg}

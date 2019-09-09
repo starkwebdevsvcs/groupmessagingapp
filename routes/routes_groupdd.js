@@ -85,17 +85,17 @@ let GroupDD = require('../models/groupdd');
   });
 
   // DELETE: Removes user from database
-  router.delete('/delete/:id', function (req,res) {
-    let query = {_id:req.params.id}
-    GroupDD.remove(query, function (err) {
-      if(err){
-        console.log(err);
-      } else {
-        res.send('Success');
-        req.flash('success', 'Workgroup deleted!');
-      }
-    });
-  });
+  // router.delete('/delete/:id', function (req,res) {
+  //   let query = {_id:req.params.id}
+  //   GroupDD.remove(query, function (err) {
+  //     if(err){
+  //       console.log(err);
+  //     } else {
+  //       res.send('Success');
+  //       req.flash('success', 'Workgroup deleted!');
+  //     }
+  //   });
+  // });
 
 
 // Export statement

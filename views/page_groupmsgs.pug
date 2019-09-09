@@ -11,12 +11,12 @@ block content
                         label(for='txtStandardMessage') Standard Message (Required):
                         select.form-control(name="txtStandardMessage" size="0")
                             option(disabled='', selected='', value='')  -- Select a Standard Message --
-                            //- each reminderdd, i in reminderdds
-                            //-     option(value=reminderdd.name) #{reminderdd.name}
+                            each message, i in standardMessages
+                                option(value=message.text) #{message.text}
                 .form-row.col-sm-7
                     .form-group
                         label(for='txtCustomMsg') Additional Message (Optional):
-                        textarea.form-control(class='mlen' name='txtCustomMsg' placeholder='' required)
+                        textarea.form-control( name='txtCustomMsg' placeholder='' required)
                 .form-row.col-sm-7
                     .form-group
                         label(for='txtFrom') From Name (Optional):
@@ -27,7 +27,7 @@ block content
                 .form-row.col-sm-7
                     .form-group
                         label(for='chkbxGroup') Send To (Required):
-                        .form-check-inline(name='chkbxGroup')
+                        .form-control.form-check-inline(name='chkbxGroup')
                             label.form-check-label Option 1
                             input.form-check-input(type='checkbox' value='')
                             label.form-check-label Option 2

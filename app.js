@@ -69,7 +69,7 @@ app.set('view engine', 'pug');
     //Express Messages Middleware
     app.use(require('connect-flash')());
     app.use(function (req, res, next) {
-        res.locals.messages = require('express-messages')(req, res);
+        res.locals.expressMessages = require('express-messages')(req, res);
         next();
     });
 
@@ -111,24 +111,26 @@ app.set('view engine', 'pug');
 
 // Route variables
 let appRouter = require('./routes/routes_app');
-let groupddRouter = require('./routes/routes_groupdd');
+// let groupddRouter = require('./routes/routes_groupdd');
 let loginRouter = require('./routes/routes_login');
 let msgRouter = require('./routes/routes_messages');
 let remddRouter = require('./routes/routes_reminderdd');
 let rmndrRouter = require('./routes/routes_reminders');
 let twilioRouter = require('./routes/routes_twilio');
 let usersRouter = require('./routes/routes_users');
+let adminRouter = require('./routes/routes_admin')
     // let histRouter = require('./routes/routes_history');
 
 // Route statements
     // app.use('/history', histRouter);
     app.use('/reminderdd', remddRouter);
-    app.use('/groupdd', groupddRouter);
+    // app.use('/groupdd', groupddRouter);
     app.use('/messages', msgRouter);
     app.use('/reminders', rmndrRouter);
     app.use('/users', usersRouter);
     app.use('/login', loginRouter);
     app.use('/twilio', twilioRouter);
+    app.use('/admin', adminRouter);
     app.use('/', appRouter);
 
 
