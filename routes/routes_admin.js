@@ -20,7 +20,7 @@ router.get('/messages', function(req,res){
   })
 });
 
-// POST: Add a Group Dropdown to DB
+// POST: Add a Standard Message to DB
 router.post('/messages/add', function(req,res){
   req.checkBody('message', 'Message Text  is required').notEmpty();
   // Error check and handling
@@ -59,6 +59,44 @@ router.delete('/messages/delete/:id', function (req, res) {
     }
   });
 });
+
+  //DOM: Show 'Edit a Message' Page
+  router.get('/messages/edit/:id', function(req,res){
+    StandardMessage.findById(req.params.id, function(err, standardMessage){
+      res.render('page_adminmessagesedit', {
+        standardMessage: standardMessage,
+        title: 'Edit a Standard Message'
+      });
+    });
+  });
+
+  //POST: Edit a Reminder in the database
+  router.post('/messages/edit/:id', function(req,res){
+      req.checkBody('messageText', 'Message text is required').notEmpty();
+      // Error check and handling
+      let errors = req.validationErrors();
+      if(errors){
+          res.render('page_adminmessagesedit',{
+              errors:errors
+          });
+      } else {
+          let standardMessage = {};
+            standardMessage.text = req.body.messageText,
+            standardMessage.active = true
+          let query = {_id:req.params.id};
+          standardMessage.update(query, standardMessage, function (err) {
+              if(err){
+                  console.log(err);
+                  return;
+              } else {
+                  req.flash('success alert-dismissible fade show', 'Standard message updated!');
+                  res.redirect('/admin/messages');
+                }
+          });
+      }
+  });
+
+
     
 // Export statement
 module.exports=router;

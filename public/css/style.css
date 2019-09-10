@@ -30,6 +30,9 @@ td {
   color: #178FB0;
   font: 14px "Raleway", Helvetica, Arial, sans-serif;
 }
+td.center {
+  text-align: center;
+}
 .image img {
     max-height: 200px;
     max-width: 200px;
@@ -72,9 +75,10 @@ td {
 }
 .btn-fswf3{
   background-color: #178FB0;
-  margin-right: 25px;
+  margin-right: 15px;
   border-color: #0E566A;
   border-width: 1px;
+  height: 35px;
 }
 .btn-fswf3:hover {
   color: #178FB0;
