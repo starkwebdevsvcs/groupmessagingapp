@@ -20,12 +20,21 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 // DOM: Show Group Message
 router.get('/group', function(req,res){
+    let custGroups = [];
+    custGroup.find({}, function(err, customerGroups){
+        if(err){
+            console.log(err);
+        } else {
+            custGroups: customerGroups
+        }
+    })
     stdMessage.find({}, function(err, standardMessages){
         if(err){
             console.log(err);
         } else {
             res.render('page_groupmsgs', {
                 standardMessages: standardMessages,
+                customerGroups: custGroups,
                 title: 'Send A Group Message'
             });
             }

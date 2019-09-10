@@ -13,6 +13,7 @@ function enable () {
   deleteReminder();
   histTable();
   deleteMessage();
+  dismissAlert();
   // $('.addNum').on('click', addNumFields);
   // $('.removeNum').on('click', remNumFields);
 }
@@ -22,6 +23,13 @@ function clrForm() {
     document.getElementById("txtForm").reset();
 }
 
+function dismissAlert() {
+    window.setTimeout(function() {
+        $(".alert-dismissible").fadeTo(1000, 0).slideUp(1000, function(){
+            $(this).remove(); 
+        });
+    }, 5000);
+}
 // Delete User Button
 function deleteUser () {
     $('.delete-user').on('click', function (user) {

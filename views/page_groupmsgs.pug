@@ -28,10 +28,9 @@ block content
                     .form-group
                         label(for='chkbxGroup') Send To (Required):
                         .form-control.form-check-inline(name='chkbxGroup')
-                            label.form-check-label Option 1
-                            input.form-check-input(type='checkbox' value='')
-                            label.form-check-label Option 2
-                            input.form-check-input(type='checkbox' value='')
+                            each group, i in customerGroups
+                                label.form-check-label #{group.name}
+                                input.form-check-input(type='checkbox' value=group.name)
                 .form-row.col-sm-7
                     .form-group
                         label(for='uploadPicture') Add Picture (Optional):
