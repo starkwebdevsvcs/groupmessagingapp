@@ -109,7 +109,7 @@ app.set('view engine', 'pug');
     //   });
     // });
 
-// Route variables
+// Route variables+6320
 let appRouter = require('./routes/routes_app');
 // let groupddRouter = require('./routes/routes_groupdd');
 let loginRouter = require('./routes/routes_login');

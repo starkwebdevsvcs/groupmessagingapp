@@ -6,18 +6,23 @@ block content
             h1 #{title}
             br
             hr
-            h4 Please confirm/edit recipient text message:
+            h4 Please confirm  message content:
             br
-            form(id="txtForm" role='form' method='POST' action='/twilio/send')
-                .form-row.col-sm-3
-                    .form-group
-                        label(for='previewPhone') Client Phone Number:
-                        input.form-control(name='previewPhone' type='number' placeholder='' min='2010000000' max='9999999999' value=txtToPhone required)
+            form(id="txtForm" role='form' method='POST' action='/msgservices/send')
+                //- .form-row.col-sm-3
+                //-     .form-group
+                //-         label(for='previewPhone') Client Phone Number:
+                //-         input.form-control(name='previewPhone' type='number' placeholder='' min='2010000000' max='9999999999' value=txtToPhone required)
                 .form-group
                     label(for='previewMessage') Text Message to be Sent:
                     textarea.previewMsg.form-control(class='mlen' name='previewMessage' required)= txtFullMsg
                     .previewMsg_Count
                 br
-                input.btn.btn-info.btn-fswf1(type='submit' value='Send Text')
-                button.btn.btn-info.btn-fswf2(type='button' href='/reminders') Cancel / Edit
+                .form-row.col-sm-7
+                    .form-row
+                        .form-group
+                            input.btn.btn-success.btnSubmit(type="submit", value="Send Message")
+                    .form-row
+                        .form-group
+                            input.btn.btn-secondary.btnReset(type="button" onclick="window.location.href='/messages/group'" value="Cancel")
         br

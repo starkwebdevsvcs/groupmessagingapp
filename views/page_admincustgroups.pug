@@ -22,14 +22,14 @@ block content
             table.table
                 thead
                     tr
-                        th(scope='col') Message
+                        th(scope='col') Group Name
                         th(scope='col') Active
                         th(scope='col') Actions
                 tbody
-                    each group, i in customerGroups
+                    each group, i in groups
                         tr
                             td= group.name
-                            td.center= message.active
+                            td.center= group.active
                             td.center
-                                a.btn.btn-info.btn-fswf3(href="/admin/groups/edit/" + message._id) Edit
-                                button.btn.btn-danger.btn-sm.deleteStdMessage(href="#", data-id=group._id) Delete
+                                a.btn.btn-info.btn-fswf3(href="/admin/groups/edit/" + group._id) Edit
+                                button.btn.btn-danger.btn-sm.deleteGroup(href="#", data-id=group._id) Delete

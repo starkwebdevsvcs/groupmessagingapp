@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const Q = require ('q');
 
 require('dotenv').load();
 let env = process.env;
 
 // Bring in models
-let custGroup = require('../models/models_customergroup');
-let stdMessage = require('../models/models_standardmessage');
+let CustomerGroup = require('../models/models_customergroup');
+let StandardMessage = require('../models/models_standardmessage');
 
 // Require the Twilio module and create a REST client
 const twilio = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
@@ -16,64 +17,63 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
+
 // Routes
 
 // DOM: Show Group Message
 router.get('/group', function(req,res){
-    let custGroups = [];
-    custGroup.find({}, function(err, customerGroups){
+    StandardMessage.find({}, function(err, standardMessages){
         if(err){
             console.log(err);
         } else {
-            custGroups: customerGroups
+            CustomerGroup.find({}, function(err, customerGroups){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render('page_groupmsgs', {
+                        standardMessages: standardMessages,
+                        customerGroups: customerGroups,
+                        title: 'Send A Group Message'
+                    });
+                }
+            })
         }
-    })
-    stdMessage.find({}, function(err, standardMessages){
+    });
+});
+
+// POST: Format Message and show preview page
+router.post('/preview', function(req, res) {
+    console.log(req.body)
+    // txtToPhone = req.body.txtClient1;
+    // txtFullMsg = req.body.txtCustomMsg+' From '+req.body.txtCustomFrom+'. '+req.body.txtFromGrp+'. Call '+req.body.txtCallback+' with questions.';
+    // returnPage = 'messages';
+    // res.redirect('/messages/preview');
+});
+
+// DOM: Show 'Send Messages' Page
+router.get('/', function(req,res){
+    txtToPhone='';
+    txtFullMsg='';
+    GroupDD.find({}, function(err, groupdds){
         if(err){
             console.log(err);
         } else {
-            res.render('page_groupmsgs', {
-                standardMessages: standardMessages,
-                customerGroups: custGroups,
-                title: 'Send A Group Message'
+            res.render('page_messages', {
+                groupdds:groupdds,
+                title: 'Send a Message'
             });
             }
     });
 });
 
-    // DOM: Show "Preview Page" for Messages
-    router.get('/preview', function(req,res){
-        res.render('page_preview', {
-            title: 'Message Preview'
-        });
-    });
-
-    // POST: Format Message and show preview page
-    router.post('/preview', function(req, res) {
-        txtToPhone = req.body.txtClient1;
-        txtFullMsg = req.body.txtCustomMsg+' From '+req.body.txtCustomFrom+'. '+req.body.txtFromGrp+'. Call '+req.body.txtCallback+' with questions.';
-        returnPage = 'messages';
-        res.redirect('/messages/preview');
-    });
-    
-    // DOM: Show 'Send Messages' Page
-    router.get('/', function(req,res){
-        txtToPhone='';
-        txtFullMsg='';
-        GroupDD.find({}, function(err, groupdds){
-            if(err){
-                console.log(err);
-            } else {
-                res.render('page_messages', {
-                    groupdds:groupdds,
-                    title: 'Send a Message'
-                });
-              }
-        });
-    });
-
-
 module.exports = router;
+    // DOM: Show "Preview Page" for Messages
+    // router.get('/preview', function(req,res){
+    //     res.render('page_preview', {
+    //         title: 'Message Preview'
+    //     });
+    // });
+
 
     // POST: Send a Message through Twilio service
     // router.post('/send', function(req, res) {

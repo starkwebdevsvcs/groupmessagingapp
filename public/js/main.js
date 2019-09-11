@@ -10,9 +10,9 @@ function enable () {
   $('.clrForm').on('click', clrForm);
   deleteUser();
   deleteStdMessage();
-  deleteReminder();
-  histTable();
+  deleteGroup();
   deleteMessage();
+  histTable();
   dismissAlert();
   // $('.addNum').on('click', addNumFields);
   // $('.removeNum').on('click', remNumFields);
@@ -67,16 +67,16 @@ function deleteStdMessage () {
       });
 }
 
-function deleteReminder () {
-    $('.delete-reminder').on('click', function (reminderdd) {
-          $target = $(reminderdd.target);
+function deleteGroup () {
+    $('.deleteGroup').on('click', function (groups) {
+          $target = $(groups.target);
           var id = $target.attr('data-id');
           $.ajax({
               type:'DELETE',
-              url: '/reminderdd/delete/'+id,
+              url: '/admin/groups/delete/'+id,
               success: function (response) {
+                // req.flash('success', 'Group deleted!');
                 location.reload(true);
-                req.flash('success', 'Reminder deleted!');
               },
               error: function (err) {
                   console.log(err);
