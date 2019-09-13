@@ -1,0 +1,35 @@
+extends page_layout2
+
+block content
+    if user && user.role=='admin'
+        .container
+            h1 #{title}
+            br
+            hr
+            h4 Add a Team:
+            br
+            form(role='form' method='POST' action='/admin/teams/add')
+                .form-group
+                    label(for='team') Team Name:
+                    input.form-control(class='mlen', name='team', type='text', placeholder='' required)
+                
+                input.btn.btn-info.btn-fswf1(type="submit", value="Create Team")
+            br
+            hr
+        .container
+            br
+            h4 Team List:
+            table.table
+                thead
+                    tr
+                        th(scope='col') Team Name
+                        th(scope='col') Active
+                        th(scope='col') Actions
+                tbody
+                    each team, i in teams
+                        tr
+                            td= team.name
+                            td.center= team.active
+                            td.center
+                                a.btn.btn-info.btn-fswf3(href="/admin/teams/edit/" + team._id) Edit
+                                button.btn.btn-danger.btn-sm.deleteTeam(href="#", data-id = team._id) Delete

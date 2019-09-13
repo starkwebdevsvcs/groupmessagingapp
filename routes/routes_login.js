@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 // Bring in models
-let User = require('../models/user');
+let User = require('../models/models_user');
 
 // User Routes
     // DOM: Show User Login block on page_home.pug

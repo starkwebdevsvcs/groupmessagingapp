@@ -5,6 +5,8 @@ const router = express.Router();
 let StandardMessage = require('../models/models_standardmessage');
 let CustomerGroup = require('../models/models_customergroup');
 
+// MESSAGES ROUTES ================================================================>>>
+
 // DOM: Show Message Administration  Page
 router.get('/messages', function(req,res){
   StandardMessage.find({}, function(err, messages){
@@ -97,7 +99,9 @@ router.delete('/messages/delete/:id', function (req, res) {
       }
   });
 
-// DOM: Show Customer Group Administration  Page
+ // GROUPS ROUTES ================================================================>>>
+
+ // DOM: Show Customer Group Administration  Page
 router.get('/groups', function(req,res){
   CustomerGroup.find({}, function(err, groups){
     if(err){
@@ -163,7 +167,8 @@ router.delete('/groups/delete/:id', function (req, res) {
     });
   });
 
-router.post('/groups/edit/:id', function(req,res){
+  //POST: Edit a Message in the database
+  router.post('/groups/edit/:id', function(req,res){
   req.checkBody('groupName', 'Group Name is required').notEmpty();
   // Error check and handling
   let errors = req.validationErrors();

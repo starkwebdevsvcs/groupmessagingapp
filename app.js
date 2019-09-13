@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Database related
   //DB Connection
-  mongoose.connect(env.DB_STRING);
+  mongoose.connect(env.DB_STRING, { useNewUrlParser: true});
   //Check DB connection
   db.once('open', function(err){
     console.log('Connection made to Database: ' + env.DB_NAME);
@@ -110,16 +110,18 @@ app.set('view engine', 'pug');
     // });
 
 // Route variables+6320
-let appRouter = require('./routes/routes_app');
 // let groupddRouter = require('./routes/routes_groupdd');
+// let usersRouter = require('./routes/routes_users');
+// let histRouter = require('./routes/routes_history');
+let appRouter = require('./routes/routes_app');
 let loginRouter = require('./routes/routes_login');
 let msgRouter = require('./routes/routes_messages');
 let remddRouter = require('./routes/routes_reminderdd');
 let rmndrRouter = require('./routes/routes_reminders');
 let twilioRouter = require('./routes/routes_twilio');
-let usersRouter = require('./routes/routes_users');
-let adminRouter = require('./routes/routes_admin')
-    // let histRouter = require('./routes/routes_history');
+let usersRouter = require('./routes/routes_adminusers');
+let teamsRouter = require('./routes/routes_adminteams');
+let adminRouter = require('./routes/routes_admin');
 
 // Route statements
     // app.use('/history', histRouter);
@@ -127,9 +129,10 @@ let adminRouter = require('./routes/routes_admin')
     // app.use('/groupdd', groupddRouter);
     app.use('/messages', msgRouter);
     app.use('/reminders', rmndrRouter);
-    app.use('/users', usersRouter);
     app.use('/login', loginRouter);
     app.use('/twilio', twilioRouter);
+    app.use('/admin/users', usersRouter);
+    app.use('/admin/teams', teamsRouter);
     app.use('/admin', adminRouter);
     app.use('/', appRouter);
 

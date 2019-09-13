@@ -12,25 +12,14 @@ const passport = require('passport');
         copyright: req.app.locals.copyright,
       });
     });
-    // // DOM: Show '/' Page
-    // router.get('/koddie', function(req,res){
-    //   res.render('koddie_navbar', {
-    //     title: 'Koddie"s Page'
-    //   });
-    // });
-    // // DOM: Show 'Reminders' Page
-    // router.get('/reminders', function(req,res){
-    //     res.render('page_reminders', {
-    //       title: 'Send a Reminder'
-    //     });
-    // });
-    //
+
     // // DOM: Show 'Messages' Page
     // router.get('/messages', function(req,res){
     //     res.render('page_messages', {
     //       title: 'Send a Message'
     //     });
     // });
+
     // DOM: Show 'Home' Page
     // router.get('/login2', function(req,res){
     //     res.render('page_login2', {
