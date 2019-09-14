@@ -167,7 +167,7 @@ router.delete('/groups/delete/:id', function (req, res) {
     });
   });
 
-  //POST: Edit a Message in the database
+  //POST: Save Group changes to the database
   router.post('/groups/edit/:id', function(req,res){
   req.checkBody('groupName', 'Group Name is required').notEmpty();
   // Error check and handling

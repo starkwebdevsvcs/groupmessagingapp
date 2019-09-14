@@ -49,69 +49,55 @@ router.post('/add', function(req,res){
 });
 
 
-    //DOM: Show 'Edit a User' Page
-    router.get('/edit/:id', function(req,res){
-      User.findById(req.params.id, function(err, userFrmDB){
-        res.render('page_adminusersedit', {
-            userInForm:userFrmDB,
-            title: 'Edit a User'
-        });
-      });
+//DOM: Show 'Edit a Team' Page
+router.get('/edit/:id', function(req,res){
+  Team.findById(req.params.id, function(err, team){
+    res.render('page_adminteamsedit', {
+        team: team,
+        title: 'Edit a Team'
     });
+  });
+});
 
-    //POST: Edit a User in the database
-    router.post('/edit/:id', function(req,res){
-      req.checkBody('username', 'User name is required').notEmpty();
-      req.checkBody('role', 'User role is required').notEmpty();
-      req.checkBody('password', 'A password is required').notEmpty();
-      req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-      // Error check and handling
-      let errors = req.validationErrors();
-      if(errors){
-          res.render('page_adminusersedit',{
-            errors:errors
-          });
-      } else {
-        let user = {};
-          user.username = req.body.username,
-          user.password = req.body.password,
-          user.role = req.body.role,
-          user.openpwd = req.body.password,
-          user.active = true,
-        bcrypt.genSalt(10, function (err, salt) {
-          bcrypt.hash(user.password, salt, function (err, hash) {
-            if (err) {
+
+//POST: Save Team changes to the database
+router.post('/edit/:id', function(req,res){
+  req.checkBody('teamName', 'Team Name is required').notEmpty();
+  // Error check and handling
+  let errors = req.validationErrors();
+  if(errors){
+      res.render('page_adminteamsedit',{
+          errors:errors
+      });
+  } else {
+      let team  = {};
+        team.name = req.body.teamName,
+        team.active = true
+      let query = {_id:req.params.id};
+      Team.update(query, team, function (err) {
+          if(err){
               console.log(err);
               return;
-            } else {
-              user.password = hash;
-              let query = {_id:req.params.id};
-              User.update(query, user, function (err) {
-                if(err){
-                  console.log(err);
-                  return;
-                } else {
-                    req.flash('success alert-dismissible fade show', 'User '+user.username+' Updated!');
-                    res.redirect('/admin/users');
-                  }
-              });
+          } else {
+              req.flash('success alert-dismissible fade show', 'Team updated!');
+              res.redirect('/admin/teams');
             }
-          });
-        })
-      }
-  });
-    // DELETE: Removes user from database
-    router.delete('/delete/:id', function (req,res) {
-      let query = {_id:req.params.id}
-      User.remove(query, function (err) {
-        if(err){
-          console.log(err);
-        } else {
-          res.send('Success');
-          req.flash('success', 'User deleted!');
-        }
       });
-    });
+  }
+});
+  
+// DELETE: Removes a Team from the database
+router.delete('/delete/:id', function (req,res) {
+  let query = {_id:req.params.id}
+  Team.deleteOne(query, function (err) {
+    if(err){
+      console.log(err);
+    } else {
+      req.flash('success alert-dismissible fade-in show', 'Team  Deleted!');
+      res.send('Success');
+    }
+  });
+});
 
 
 // Export statement
