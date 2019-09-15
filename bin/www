@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 // Module dependencies
-var app = require('../app');
-var debug = require('debug')('groupmessagingapp:server');
-var http = require('http');
+let app = require('../app');
+let debug = require('debug')('groupmessagingapp:server');
+let http = require('http');
 
 // Get port from environment and store in Express.
-var port = normalizePort(process.env.PORT || '3001');
+let port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 // Listen on provided port, on all network interfaces.

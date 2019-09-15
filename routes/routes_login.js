@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 // Bring in models
@@ -8,14 +8,14 @@ let User = require('../models/models_user');
 
 // User Routes
     // DOM: Show User Login block on page_home.pug
-    router.get('/disclaimer',function (req,res) {
-        req.flash('success alert-dismissible fade show', 'You are logged in!');
-        res.render('page_login2', {
-            title: 'Disclaimer:',
-            appVersion: req.app.locals.appVersion,
-            copyright: req.app.locals.copyright,    
-        });
-    });
+    // router.get('/disclaimer',function (req,res) {
+    //     req.flash('success alert-dismissible fade show', 'You are logged in!');
+    //     res.render('page_login2', {
+    //         title: 'Disclaimer:',
+    //         appVersion: req.app.locals.appVersion,
+    //         copyright: req.app.locals.copyright,    
+    //     });
+    // });
 
     // DOM: User logout process; shows Home page with Login block upon logout
     router.get('/logout', function (req,res) {

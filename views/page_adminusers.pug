@@ -17,12 +17,8 @@ block content
                         label(for='Team') Team:
                         select.form-control(class='loginfld' name='team', size='0' required)
                             option(disabled='', selected='', value='')  -- Select a Team -- 
-                            //- each team, i in teams
-                            //-     option(value=team.name) #{team.name}
-                                option(disabled='', selected='', value='')  -- Select a Role -- 
-                            option(value='admin') admin
-                            option(value='staff') staff
-
+                            each team, i in teams
+                                option(value=team.name) #{team.name}
                 .form-row.col-sm-6
                     .form-group
                         label(for='password') Password:

@@ -102,39 +102,33 @@ app.set('view engine', 'pug');
     })
 
 // Routes
-    // DOM: Show '/' Page
-    // app.get('/datepicker', function(req,res){
-    //   res.render('datepicker', {
-    //     title: 'DatePicker'
-    //   });
-    // });
-
-// Route variables+6320
 // let groupddRouter = require('./routes/routes_groupdd');
 // let usersRouter = require('./routes/routes_users');
 // let histRouter = require('./routes/routes_history');
 let appRouter = require('./routes/routes_app');
 let loginRouter = require('./routes/routes_login');
 let msgRouter = require('./routes/routes_messages');
-let remddRouter = require('./routes/routes_reminderdd');
-let rmndrRouter = require('./routes/routes_reminders');
+let remddRouter = require('./Archive/routes_reminderdd');
+let rmndrRouter = require('./Archive/routes_reminders');
 let twilioRouter = require('./routes/routes_twilio');
 let usersRouter = require('./routes/routes_adminusers');
 let teamsRouter = require('./routes/routes_adminteams');
+let customersRouter = require('./routes/routes_admincustomers');
 let adminRouter = require('./routes/routes_admin');
 
 // Route statements
-    // app.use('/history', histRouter);
-    app.use('/reminderdd', remddRouter);
-    // app.use('/groupdd', groupddRouter);
-    app.use('/messages', msgRouter);
-    app.use('/reminders', rmndrRouter);
-    app.use('/login', loginRouter);
-    app.use('/twilio', twilioRouter);
-    app.use('/admin/users', usersRouter);
-    app.use('/admin/teams', teamsRouter);
-    app.use('/admin', adminRouter);
-    app.use('/', appRouter);
+app.use('/reminderdd', remddRouter);
+app.use('/messages', msgRouter);
+app.use('/reminders', rmndrRouter);
+app.use('/login', loginRouter);
+app.use('/twilio', twilioRouter);
+app.use('/admin/users', usersRouter);
+app.use('/admin/teams', teamsRouter);
+app.use('/admin/customers', customersRouter)
+app.use('/admin', adminRouter);
+// app.use('/history', histRouter);
+// app.use('/groupdd', groupddRouter);
+app.use('/', appRouter);
 
 
 // Error Handler

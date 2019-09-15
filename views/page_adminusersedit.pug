@@ -13,6 +13,10 @@ block content
                 .form-group
                     label(for='role') Team:
                     select.form-control(class='loginfld' name='role', size='0' value=userInForm.role required)
+                        option(disabled='', selected='', value='')  -- Select a Team -- 
+                        each team, i in teams
+                            option(value=team.name) #{team.name}
+
                 br
                 .form-group
                     label(for='password') Password:

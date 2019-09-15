@@ -1,0 +1,32 @@
+extends page_layout2
+
+block content
+  if user && user.role=='admin'
+        .container
+            h1 #{title}
+            br
+            form(role='form' method='POST' action='/admin/customers/edit/' + customer._id)
+                .form-group
+                    label(for='phone') Phone Number (req):
+                    input.form-control(class='mlen', name='phone', type='text', placeholder='' value=customer.phone required)
+                .form-group
+                    label(for='group') Group (req):
+                    select.form-control(class='mlen' name='group', size='0' required)
+                        option(disabled='', selected='', value='')  -- Select a Group -- 
+                        each group, i in groups
+                            option(value=group.name) #{group.name}
+                .form-group
+                    label(for='name') Name:
+                    input.form-control(class='mlen', name='name', type='text', placeholder='' value=customer.name)
+                .form-group
+                    label(for='notes') Notes:
+                    input.form-control(class='mlen', name='notes', type='text', placeholder='' value=customer.notes)
+
+                .form-row.col-sm-7
+                    .form-row
+                        .form-group
+                            input.btn.btn-success.btnSubmit(type="submit", value="Save Changes")
+                    .form-row
+                        .form-group
+                            input.btn.btn-secondary.btnReset(type="button" onclick="window.location.href='/admin/customers'" value="Cancel")
+            br

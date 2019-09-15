@@ -13,6 +13,7 @@ function enable () {
   deleteGroup();
   deleteMessage();
   deleteTeam();
+  deleteCustomer();
   histTable();
   dismissAlert();
   // $('.addNum').on('click', addNumFields);
@@ -87,22 +88,39 @@ function deleteGroup () {
 
 function deleteTeam () {
     $('.deleteTeam').on('click', function (event) {
-          $target = $(event.target);
-          var id = $target.attr('data-id');
-          $.ajax({
-              type:'DELETE',
-              url: '/admin/teams/delete/'+id,
-              success: function (response) {
-                  // req.flash('success', 'Team deleted!');
+        $target = $(event.target);
+        var id = $target.attr('data-id');
+        $.ajax({
+            type:'DELETE',
+            url: '/admin/teams/delete/'+id,
+            success: function (response) {
+                // req.flash('success', 'Team deleted!');
                 location.reload(true);
-              },
-              error: function (err) {
-                  console.log(err);
-              }
-          });
-      });
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
 }
 
+function deleteCustomer () {
+    $('.deleteCustomer').on('click', function (event) {
+        $target = $(event.target);
+        var id = $target.attr('data-id');
+        $.ajax({
+            type:'DELETE',
+            url: '/admin/customers/delete/'+id,
+            success: function (response) {
+                // req.flash('success', 'Team deleted!');
+                location.reload(true);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+}
 
 function deleteMessage () {
     $('.delete-msg').on('click', function (response) {

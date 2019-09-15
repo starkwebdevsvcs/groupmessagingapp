@@ -1,0 +1,64 @@
+extends page_layout2
+
+block content
+    if user && user.role=='admin'
+        .container
+            h1 #{title}
+            br
+            hr
+            h4 Upload Customer List:
+            h6 To upload multiple customers at once, please set up a comma separated text file (.csv) or an Excel worksheet (.xls/.xlsx) with the following columns: phone/name/group/notes. The Phone number and Group are the only required items for each customer.
+            h6 Current Customer Groups are: 
+            br
+            form(role='form' method='POST' action='/admin/customers/addlist')
+                .form-group
+                    label(for='uploadPicture') Choose File (.csv or .xls file):
+                    input.form-control(type="file" class="mlen" name="uploadFile" accept=".csv,.xls,.xlsx")
+                input.btn.btn-success.btn-fswf1(type="submit", value="Upload List")
+            br
+            hr
+        .container
+            h4 Add One Customer:
+            br
+            form(role='form' method='POST' action='/admin/customers/add')
+                .form-group
+                    label(for='phone') Phone Number (req):
+                    input.form-control(class='mlen', name='phone', type='number', placeholder='' required)
+                .form-group
+                    label(for='group') Group (req):
+                    select.form-control(class='mlen' name='group', size='0' required)
+                        option(disabled='', selected='', value='')  -- Select a Group -- 
+                        each group, i in groups
+                            option(value=group.name) #{group.name}
+                .form-group
+                    label(for='name') Name:
+                    input.form-control(class='mlen', name='name', type='text', placeholder='')
+                .form-group
+                    label(for='notes') Notes:
+                    input.form-control(class='mlen', name='notes', type='text', placeholder='')
+                input.btn.btn-success.btn-fswf1(type="submit", value="Add Customer")
+            br
+            hr
+        .container
+            br
+            h4 Customer List:
+            table.table
+                thead
+                    tr
+                        th(scope='col') Phone #
+                        th(scope='col') Group
+                        th(scope='col') Name
+                        th(scope='col') Notes
+                        th(scope='col') Active
+                        th(scope='col') Actions
+                tbody
+                    each customer, i in customers
+                        tr
+                            td.center= customer.phone
+                            td.center= customer.group
+                            td.center= customer.name
+                            td.center= customer.notes
+                            td.center= customer.active
+                            td.center
+                                a.btn.btn-info.btn-fswf3(href="/admin/customers/edit/" + customer._id) Edit
+                                button.btn.btn-danger.btn-sm.deleteCustomer(href="#", data-id = customer._id) Delete
