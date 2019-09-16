@@ -6,16 +6,16 @@ block content
             h1 #{title}
             br
             hr
-            h4 Please confirm  message content:
+            h4 Please confirm  message content for: #{messageGroup}
             br
             form(id="txtForm" role='form' method='POST' action='/msgservices/send')
                 //- .form-row.col-sm-3
-                //-     .form-group
-                //-         label(for='previewPhone') Client Phone Number:
-                //-         input.form-control(name='previewPhone' type='number' placeholder='' min='2010000000' max='9999999999' value=txtToPhone required)
+                    .form-group
+                        label(for='previewPhone') Client Phone Number:
+                        input.form-control(name='previewPhone' type='number' placeholder='' min='2010000000' max='9999999999' value=txtToPhone required)
                 .form-group
                     label(for='previewMessage') Text Message to be Sent:
-                    textarea.previewMsg.form-control(class='mlen' name='previewMessage' required)= txtFullMsg
+                    textarea.previewMsg.form-control(class='mlen' name='previewMessage' required)= messagetext
                     .previewMsg_Count
                 br
                 .form-row.col-sm-7

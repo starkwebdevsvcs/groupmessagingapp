@@ -109,27 +109,27 @@ app.set('view engine', 'pug');
 // let rmndrRouter = require('./Archive/routes_reminders');
 let appRouter = require('./routes/routes_app');
 let loginRouter = require('./routes/routes_login');
-let msgRouter = require('./routes/routes_messages');
+let messagesRouter = require('./routes/routes_messages');
 let twilioRouter = require('./routes/routes_twilio');
 let usersRouter = require('./routes/routes_adminusers');
 let teamsRouter = require('./routes/routes_adminteams');
 let customersRouter = require('./routes/routes_admincustomers');
 let groupsRouter = require('./routes/routes_admingroups');
-let messagesRouter = require('./routes/routes_adminmessages');
+let adminMessagesRouter = require('./routes/routes_adminmessages');
 
 // Route statements
 // app.use('/reminderdd', remddRouter);
 // app.use('/reminders', rmndrRouter);
 // app.use('/history', histRouter);
 // app.use('/groupdd', groupddRouter);
-app.use('/messages', msgRouter);
+app.use('/messages', messagesRouter);
 app.use('/login', loginRouter);
 app.use('/twilio', twilioRouter);
 app.use('/admin/groups', groupsRouter);
 app.use('/admin/users', usersRouter);
 app.use('/admin/teams', teamsRouter);
 app.use('/admin/customers', customersRouter)
-app.use('/admin/messages', messagesRouter);
+app.use('/admin/messages', adminMessagesRouter);
 app.use('/', appRouter);
 
 

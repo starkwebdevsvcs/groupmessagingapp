@@ -41,41 +41,53 @@ router.get('/group', function(req,res){
     });
 });
 
-// POST: Format Message and show preview page
-router.post('/preview', function(req, res) {
-    console.log(req.body)
-    // txtToPhone = req.body.txtClient1;
-    // txtFullMsg = req.body.txtCustomMsg+' From '+req.body.txtCustomFrom+'. '+req.body.txtFromGrp+'. Call '+req.body.txtCallback+' with questions.';
-    // returnPage = 'messages';
-    // res.redirect('/messages/preview');
-});
-
-// DOM: Show 'Send Messages' Page
-router.get('/', function(req,res){
-    txtToPhone='';
-    txtFullMsg='';
-    GroupDD.find({}, function(err, groupdds){
-        if(err){
-            console.log(err);
-        } else {
-            res.render('page_messages', {
-                groupdds:groupdds,
-                title: 'Send a Message'
-            });
-            }
+// DOM: Show "Preview Page" for Messages
+router.get('/preview', function(req,res){
+    res.render('page_messagespreview', {
+        title: 'Message Preview'
     });
 });
 
+
+// POST: Format Message and show preview page
+router.post('/preview', function(req, res) {
+    if(req.body.standardMessage === undefined) {
+        req.body.standardMessage = '';
+    }
+    console.log(req.body)
+    let message = {};
+    if (req.body.fromName) {
+        messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromName + ' @ ' + req.body.fromPhone + ' w/ questions';
+    } else {
+        messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromPhone + ' w/ questions';
+    }
+    messageGroup = req.body.toGroup
+    console.log(message)
+    // returnPage = 'messages';
+    res.redirect('/messages/preview');
+    // res.redirect('/messages/group');
+});
+
+
 module.exports = router;
-    // DOM: Show "Preview Page" for Messages
-    // router.get('/preview', function(req,res){
-    //     res.render('page_preview', {
-    //         title: 'Message Preview'
-    //     });
-    // });
 
+// DOM: Show 'Send Messages' Page
+// router.get('/', function(req,res){
+//     txtToPhone='';
+//     txtFullMsg='';
+//     GroupDD.find({}, function(err, groupdds){
+//         if(err){
+//             console.log(err);
+//         } else {
+//             res.render('page_messages', {
+//                 groupdds:groupdds,
+//                 title: 'Send a Message'
+//             });
+//             }
+//     });
+// });
 
-    // POST: Send a Message through Twilio service
+// POST: Send a Message through Twilio service
     // router.post('/send', function(req, res) {
     //     twilio.messages
     //         .create({

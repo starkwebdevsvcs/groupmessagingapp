@@ -16,6 +16,8 @@ function enable () {
   deleteCustomer();
   histTable();
   dismissAlert();
+  validateMessageFields();
+  textareaCount();
   // $('.addNum').on('click', addNumFields);
   // $('.removeNum').on('click', remNumFields);
 }
@@ -147,18 +149,35 @@ $('#histlog').DataTable({
 });
 }
 
-// -------------UNUSED FUNCTIONS--------------------- //
-// Counts number of character in text message preview
-function textareaCount () {
-    let text_max = 122;
-    $('.previewMsg_Count').html(text_max + ' characters remaining');
+function validateMessageFields() {
+    let formSelect = $('select[name=standardMessage]');
+    let formTextArea = $('textarea[name=customMessage]');
+    formSelect.on('change', function () {
+        formTextArea.removeAttr('required');
+    });
+    formTextArea.blur(function () {
+        if (formTextArea.val() !== '') {
+            formSelect.removeAttr('required');
+        }
+    })
+} 
+
+function textareaCount() {
+    let previewMax = 122;
+    if ($('.previewMsg').val()) {
+        let previewLength = $('.previewMsg').val().length;
+        let previewLeft = previewMax - previewLength;
+        $('.previewMsg_Count').html(previewLeft + ' characters remaining');
+    }
     $('.previewMsg').keyup(function () {
-        let text_length = $('.previewMsg').val().length;
-        let text_remaining = text_max - text_length;
-        $('.previewMsg_Count').html(text_remaining + ' characters remaining');
+        let previewLength = $('.previewMsg').val().length;
+        let previewLeft  = previewMax - previewLength;
+        $('.previewMsg_Count').html(previewLeft + ' characters remaining');
     });
 }
 
+// -------------UNUSED FUNCTIONS--------------------- //
+// Counts number of character in text message preview
 // Adds additional 'To #' Field on Messages page
 function addNumFields () {
     $('.multiFieldWrapper').each(function() {
