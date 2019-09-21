@@ -4,18 +4,19 @@ block content
     if user
         .container
             h1 #{title}
+            h5 Form must include either a Standard or Custom Message or both.
             br
-            form(id="txtForm" role='form' method='POST' action='/messages/preview')
+            form(id="txtForm" role='form' method='POST' action='/messages/grouppreview')
                 .form-row.col-sm-7
                     .form-group
-                        label(for='standardMessage') Standard Message (Optional):
+                        label(for='standardMessage') Standard Message:
                         select.form-control(name="standardMessage" size="0" required)
                             option(disabled='', selected='', value='')  -- Select a Standard Message --
                             each message, i in standardMessages
                                 option(value=message.text) #{message.text}
                 .form-row.col-sm-7
                     .form-group
-                        label(for='customMessage') Custom Message (Optional):
+                        label(for='customMessage') Custom Message:
                         textarea.form-control( name='customMessage' placeholder='' required)
                 .form-row.col-sm-7
                     .form-group

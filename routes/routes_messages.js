@@ -10,18 +10,13 @@ let env = process.env;
 let CustomerGroup = require('../models/models_customergroup');
 let StandardMessage = require('../models/models_standardmessage');
 
-// Require the Twilio module and create a REST client
-const twilio = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
-
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 
 // Routes
-
 // DOM: Show Group Messages page
-router.get('/group', function(req,res){
+router.get('/groupsend', function(req,res){
     StandardMessage.find({}, function(err, standardMessages){
         if(err){
             console.log(err);
@@ -42,19 +37,60 @@ router.get('/group', function(req,res){
 });
 
 // DOM: Show "Preview Page" for Messages
-router.get('/preview', function(req,res){
-    res.render('page_messagespreview', {
-        title: 'Message Preview'
+router.get('/grouppreview', function(req,res){
+    res.render('page_messagesgrouppreview', {
+        title: 'Group Message Preview'
     });
 });
 
-
 // POST: Format Message and show preview page
-router.post('/preview', function(req, res) {
+router.post('/grouppreview', function(req, res) {
     if(req.body.standardMessage === undefined) {
         req.body.standardMessage = '';
     }
-    console.log(req.body)
+    if (req.body.fromName) {
+        messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromName + ' @ ' + req.body.fromPhone + ' w/ questions';
+    } else {
+        messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromPhone + ' w/ questions';
+    }
+    messageGroup = req.body.toGroup
+    res.redirect('/messages/grouppreview');
+});
+
+// DOM: Show Single Messages page
+router.get('/singlesend', function(req,res){
+    StandardMessage.find({}, function(err, standardMessages){
+        if(err){
+            console.log(err);
+        } else {
+            CustomerGroup.find({}, function(err, customerGroups){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render('page_messagessingle', {
+                        standardMessages: standardMessages,
+                        customerGroups: customerGroups,
+                        title: 'Send A Single Message'
+                    });
+                }
+            })
+        }
+    });
+});
+
+// DOM: Show "Preview Page" for Messages
+router.get('/singlepreview', function(req,res){
+    res.render('page_messagespreview', {
+        title: 'Single Message Preview'
+    });
+});
+
+// POST: Format Message and show preview page
+router.post('/singlepreview', function(req, res) {
+    if(req.body.standardMessage === undefined) {
+        req.body.standardMessage = '';
+    }
+    // console.log(req.body)
     let message = {};
     if (req.body.fromName) {
         messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromName + ' @ ' + req.body.fromPhone + ' w/ questions';
@@ -64,7 +100,7 @@ router.post('/preview', function(req, res) {
     messageGroup = req.body.toGroup
     console.log(message)
     // returnPage = 'messages';
-    res.redirect('/messages/preview');
+    res.redirect('/messages/singlepreview');
     // res.redirect('/messages/group');
 });
 

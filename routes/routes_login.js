@@ -27,7 +27,7 @@ let User = require('../models/models_user');
     // POST: User Login process
     router.post('/', function (req,res,next){
       passport.authenticate('local', {
-        successRedirect: '/messages/group',
+        successRedirect: '/messages/groupsend',
         failureRedirect: '/',
         badRequestMessage: 'Please enter valid username and/or valid password.',
         failureFlash: true

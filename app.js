@@ -45,8 +45,8 @@ app.use(express.static(path.join(__dirname, 'public')));
   });
 
 // Load View Engine
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'pug');
 
 //Middleware
     app.use(logger('dev'));
@@ -90,13 +90,14 @@ app.set('view engine', 'pug');
         }
     }));
 
-    // Passport config
+// Passport config
     require('./config/config_passport')(passport);
+
     // Passport Middleware
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.get('*', function(req,res,next){
+    app.get('*', function(req, res, next){
       res.locals.user=req.user || null;
       next();
     })
@@ -116,12 +117,14 @@ let teamsRouter = require('./routes/routes_adminteams');
 let customersRouter = require('./routes/routes_admincustomers');
 let groupsRouter = require('./routes/routes_admingroups');
 let adminMessagesRouter = require('./routes/routes_adminmessages');
+let msgServiceRouter = require('./routes/routes_messageservice');
 
 // Route statements
 // app.use('/reminderdd', remddRouter);
 // app.use('/reminders', rmndrRouter);
 // app.use('/history', histRouter);
 // app.use('/groupdd', groupddRouter);
+app.use('/msgservices', msgServiceRouter)
 app.use('/messages', messagesRouter);
 app.use('/login', loginRouter);
 app.use('/twilio', twilioRouter);
@@ -131,7 +134,6 @@ app.use('/admin/teams', teamsRouter);
 app.use('/admin/customers', customersRouter)
 app.use('/admin/messages', adminMessagesRouter);
 app.use('/', appRouter);
-
 
 // Error Handler
     // catch 404 and forward to error handler

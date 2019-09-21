@@ -8,17 +8,19 @@ const delay = require('delay');
 require('dotenv').load();
 let env = process.env;
 
+let Customer = require('../models/models_customer');
+
 // Require the messaging module and create a REST client
-const MessagingService = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
+const msgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-    // POST: Send a Message/Reminder
-    router.post('/send', function(req, res) {
-        twilio.messages
+    // POST: Send a Message
+    router.post('/singlesend', function(req, res) {
+        msgservice.messages
             .create({
                 to: req.body.previewPhone,
                 from: env.TWILIO_NUM,
@@ -26,7 +28,31 @@ router.use(bodyParser.urlencoded({ extended: false }));
             })
             .then(message => console.log(message));
         req.flash('success alert-dismissible fade show', 'Your Reminder/Message was sent!');
-        res.redirect('/'+returnPage);
+        res.redirect('/singlesend');
+    });
+
+    // POST: Send a Group Message
+    router.post('/groupsend', function(req, res) {
+        Customer.find({group:req.body.messageGroup}, function(err, customers){
+            if(err){
+                console.log(err);
+            } else {
+                customers.forEach(function(cust) {
+                    msgservice.messages
+                        .create({
+                            to: cust.phone,
+                            from: env.TWILIO_NUM,
+                            body: req.body.previewMessage
+                        })
+                        .then(function(response) {
+                            console.log(message);  
+                        })
+                })
+            }
+        });
+        // after collection send is complete, then show success message
+        req.flash('success alert-dismissible fade show', 'Your Message was sent to the ' + req.body.messageGroup + ' .');
+        res.redirect('/messages/groupsend');
     });
 
     // DELETE: Removes message from Twilio log
@@ -52,13 +78,12 @@ router.use(bodyParser.urlencoded({ extended: false }));
     router.post('/sms', function (req, res) {
         const twiml = new MessagingResponse();
         const message = twiml.message();
-        message.body('This number does not accept messages or calls. Please use the callback # in the text you received from FSWF. Thank you!');
+        message.body('This number does not accept messages or calls. Please use the callback number listed in the text message you received. Thank you!');
         res.writeHead(200, {'Content-Type': 'text/xml'});
         res.end(twiml.toString());
     });
 
     // DOM: Show History/Log Page
-
     router.get('/history', function(req,res){
         let messages = [];
         // let frmtdDate = moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD');
@@ -68,13 +93,13 @@ router.use(bodyParser.urlencoded({ extended: false }));
             To: '',
             dateSentAfter: frmtdDate
         };
-        twilio.messages.each(filterOpts, function(message) {
+        msgservice.messages.each(filterOpts, function(message) {
             messages.push(message);
         });
         delay(1000)
             .then(() => {
                 // console.log(messages);
-                res.render('page_history', {
+                res.render('page_messageshistory', {
                   responses:messages,
                   title: 'Text Message History',
                   title2: 'Text Messages Sent in the Last 14 Days',
@@ -84,56 +109,3 @@ router.use(bodyParser.urlencoded({ extended: false }));
     });
 
 module.exports = router;
-
-    // POST: Send a Reminder
-    // router.post('/reminders', function(req, res) {
-    //     let frmtdDate = dateformat((req.body.txtApptDate + ' MST'), 'shortDate');
-    //     let tempTime = ('2018-01-01' + "T" + req.body.txtApptTime);
-    //     let frmtTime = moment.tz(tempTime, "America/Phoenix").format('h:mm a');
-    //     twilio.messages
-    //         .create({
-    //             to: req.body.txtClient1,
-    //             from: '+16027867178',
-    //             body: req.body.txtStdRmndr+' '+req.body.txtCustomRem+' Your appt is '+frmtdDate+', '+frmtTime+'. Frm '+req.body.txtCustomFrom+', '+req.body.txtFromGrp+'. Call '+req.body.txtCallback+' to make changes to your appt.'
-    //         })
-    //         .then(message => console.log(message.sid));
-    //     console.log('Reminder Sent!');
-    //     res.redirect('/reminders');
-    // });
-
-    // // POST: Send a Message
-    // router.post('/messages', function(req, res) {
-    //     twilio.messages
-    //         .create({
-    //             to: req.body.txtClient1,
-    //             from: '+16027867178',
-    //             body: req.body.txtCustomMsg+' Frm '+req.body.txtCustomFrom+'. '+req.body.txtFromGrp+'. Call '+req.body.txtCallback+' with questions.'
-    //         })
-    //         .then(message => console.log(message.sid));
-    //     console.log('Message Sent!');
-    //     res.redirect('/messages');
-    // });
-    // // DOM: Show History/Log Page for Search results
-    // router.post('/history', function(req,res){
-    //     let messages = [];
-    //     let frmtdDate = moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD');
-    //     const filterOpts = {
-    //         To: '4802720635',
-    //         dateSentAfter: frmtdDate
-    //     };
-    //     twilio.messages.each(filterOpts, function(message) {
-    //         messages.push(message);
-    //     });
-    //     delay(1000)
-    //         .then(() => {
-    //             console.log(messages);
-    //             console.log(req.user);
-    //             res.render('page_history', {
-    //               responses:messages,
-    //               title: 'Message History/Log',
-    //               title2: 'for +1'+req.body.clientPhone,
-    //               frmtdDate:frmtdDate,
-    //               moment:moment
-    //             });
-    //         });
-    // });

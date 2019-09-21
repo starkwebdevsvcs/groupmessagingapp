@@ -8,12 +8,12 @@ module.exports = function(passport){
   passport.use(new localStrategy(function(username, password, done){
     //Match single userName
     let query = {username:username};
-    console.log(query);
     User.findOne(query, function(err, user){
 
       if(err) {
-        console.log(error);
-        throw err;
+        // console.log(error);
+        // throw err;
+        return done(err)
       }
       if(!user){
         return done(null,false, {message: 'Username not found!'});
@@ -29,10 +29,12 @@ module.exports = function(passport){
       });
     });
   }));
+
   //Serialize User
   passport.serializeUser(function (user, done) {
       done(null, user.id);
   });
+
   //Deserialize User
   passport.deserializeUser(function (id, done) {
       User.findById(id, function (err,user) {
