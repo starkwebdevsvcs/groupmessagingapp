@@ -13,7 +13,6 @@ let StandardMessage = require('../models/models_standardmessage');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
-
 // Routes
 // DOM: Show Group Messages page
 router.get('/groupsend', function(req,res){
@@ -80,7 +79,7 @@ router.get('/singlesend', function(req,res){
 
 // DOM: Show "Preview Page" for Messages
 router.get('/singlepreview', function(req,res){
-    res.render('page_messagespreview', {
+    res.render('page_messagessinglepreview', {
         title: 'Single Message Preview'
     });
 });
@@ -90,18 +89,12 @@ router.post('/singlepreview', function(req, res) {
     if(req.body.standardMessage === undefined) {
         req.body.standardMessage = '';
     }
-    // console.log(req.body)
     let message = {};
-    if (req.body.fromName) {
-        messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromName + ' @ ' + req.body.fromPhone + ' w/ questions';
-    } else {
-        messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromPhone + ' w/ questions';
-    }
-    messageGroup = req.body.toGroup
+    messagetext = req.body.standardMessage + ' ' + req.body.customMessage + ' Call/text '+ req.body.fromName + ' @ ' + req.body.fromPhone + ' w/ questions';
+    txtToPhone = req.body.toPhone;
+
     console.log(message)
-    // returnPage = 'messages';
     res.redirect('/messages/singlepreview');
-    // res.redirect('/messages/group');
 });
 
 

@@ -28,7 +28,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
             })
             .then(message => console.log(message));
         req.flash('success alert-dismissible fade show', 'Your Reminder/Message was sent!');
-        res.redirect('/singlesend');
+        res.redirect('/messages/singlesend');
     });
 
     // POST: Send a Group Message
