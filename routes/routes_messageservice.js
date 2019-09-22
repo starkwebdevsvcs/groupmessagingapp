@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const dateformat = require('dateformat');
-const moment = require('moment-timezone');
-const delay = require('delay');
 
 require('dotenv').load();
 let env = process.env;
@@ -83,29 +80,5 @@ router.use(bodyParser.urlencoded({ extended: false }));
         res.end(twiml.toString());
     });
 
-    // DOM: Show History/Log Page
-    router.get('/history', function(req,res){
-        let messages = [];
-        // let frmtdDate = moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD');
-        let frmtdDate = moment(Date.now()).add(-2, 'week').format('YYYY-MM-DD');
-        console.log(frmtdDate);
-        const filterOpts = {
-            To: '',
-            dateSentAfter: frmtdDate
-        };
-        msgservice.messages.each(filterOpts, function(message) {
-            messages.push(message);
-        });
-        delay(1000)
-            .then(() => {
-                // console.log(messages);
-                res.render('page_messageshistory', {
-                  responses:messages,
-                  title: 'Text Message History',
-                  title2: 'Text Messages Sent in the Last 14 Days',
-                  moment:moment
-                });
-            });
-    });
 
 module.exports = router;

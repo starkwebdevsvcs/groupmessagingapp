@@ -8,7 +8,7 @@ block content
             hr
             br
             h4 #{title2}
-            table#histlog.table.table-striped.table-bordered(style='width:100%')
+            table#historyTable.table.table-striped.table-bordered(style='width:100%')
                 thead
                     tr
                         th(scope='col') Date/Time:
@@ -17,12 +17,12 @@ block content
                         th(scope='col') Status:
                         //- th(scope='col') SID:                        
                 tbody
-                    each response, i in responses
+                    each message, i in sentMessages
                         tr
-                            td= moment(response.dateSent).format("MM/DD/YY, HH:mm")
-                            td= response.to
-                            td= response.body
-                            td= response.status
+                            td= moment(message.dateSent).format("MM/DD/YY, HH:mm")
+                            td= message.to
+                            td= message.body
+                            td= message.status
                             //- td
                             //-     a.delete-msg(href='#' data-sid=response.sid title='Click to Delete Message')= response.sid
                 

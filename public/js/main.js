@@ -14,7 +14,7 @@ function enable () {
   deleteMessage();
   deleteTeam();
   deleteCustomer();
-  histTable();
+  historyTable();
   dismissAlert();
   validateMessageFields();
   textareaCount();
@@ -143,10 +143,10 @@ function deleteMessage () {
       });
 }
 
-function histTable() {
-$('#histlog').DataTable({
-  "order": [[ 0, "desc" ]]
-});
+function historyTable() {
+    $('#historyTable').DataTable({
+        "order": [[ 0, "desc" ]]
+    });
 }
 
 function validateMessageFields() {
@@ -161,7 +161,7 @@ function validateMessageFields() {
         }
     })
 } 
-
+// Counts number of character in text message preview
 function textareaCount() {
     let previewMax = 122;
     if ($('.previewMsg').val()) {
@@ -177,7 +177,7 @@ function textareaCount() {
 }
 
 // -------------UNUSED FUNCTIONS--------------------- //
-// Counts number of character in text message preview
+
 // Adds additional 'To #' Field on Messages page
 function addNumFields () {
     $('.multiFieldWrapper').each(function() {

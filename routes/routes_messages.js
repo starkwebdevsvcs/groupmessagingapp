@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const Q = require ('q');
+const moment = require('moment-timezone');
+const delay = require('delay');
 
 require('dotenv').load();
 let env = process.env;
@@ -9,6 +10,10 @@ let env = process.env;
 // Bring in models
 let CustomerGroup = require('../models/models_customergroup');
 let StandardMessage = require('../models/models_standardmessage');
+
+// Require the messaging module and create a REST client
+const msgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
+// const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -84,7 +89,7 @@ router.get('/singlepreview', function(req,res){
     });
 });
 
-// POST: Format Message and show preview page
+// POST: Format Single Message and show preview page
 router.post('/singlepreview', function(req, res) {
     if(req.body.standardMessage === undefined) {
         req.body.standardMessage = '';
@@ -97,6 +102,29 @@ router.post('/singlepreview', function(req, res) {
     res.redirect('/messages/singlepreview');
 });
 
+// DOM: Show History/Log Page
+router.get('/history', function(req,res){
+    let messages = [];
+    // let frmtdDate = moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD');
+    let frmtdDate = moment(Date.now()).add(-2, 'week').format('YYYY-MM-DD');
+    console.log(frmtdDate);
+    const filterOpts = {
+        To: '',
+        dateSentAfter: frmtdDate
+    };
+    msgservice.messages.each(filterOpts, function(message) {
+        messages.push(message);
+    });
+    delay(1000)
+        .then(() => {
+            res.render('page_messageshistory', {
+                title: 'Message History',
+                title2: 'Messages Sent in the Last 14 Days',
+                sentMessages: messages,
+                moment: moment,
+            });
+        });
+});
 
 module.exports = router;
 
