@@ -7,10 +7,12 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const expressValidator = require('express-validator');
-// const flash = require('connect-flash');
 const passport = require('passport');
-// const moment = require('moment-timezone');
 const fileUpload = require('express-fileupload');
+// const flash = require('connect-flash');
+// const moment = require('moment-timezone');
+
+// To read enviornmental variables
 require('dotenv').config(); //dotenv
 
 //For Timestamp messages in console
@@ -20,15 +22,13 @@ require('console-stamp')(console, 'HH:MM:ss');
 let app = express();
 let env = process.env;
 let db = mongoose.connection;
-// let txtToPhone = '';
-// let txtFullMsg = '';
-// let twilioSID = '';
-// let twilioStatus= '';
-// let returnPage = '';
 
 // Global App Variables
-app.locals.appVersion = '2019/09/06.v0.0.1';
+app.locals.appVersion = '2019/09/23.v0.5.0';
+// .v0.0.1 = 9/6/19 Initial Build following conversion from Cohort project.
+// .v0.5.0 = 9/23/19 First build for initial Heroku deployment. All services in place and working.
 app.locals.copyright = '©2019 Stark Web Development Services';
+
 
 //Set Public folder path
 app.use(express.static(path.join(__dirname, 'public')));
