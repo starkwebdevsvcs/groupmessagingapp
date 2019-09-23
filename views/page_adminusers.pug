@@ -1,7 +1,7 @@
 extends page_layout2
 
 block content
-    if user && user.role=='admin'
+    if user && user.team !== 'staff'
         .container
             h1 #{title}
             br
@@ -41,12 +41,14 @@ block content
                         th(scope='col') Active                        
                         th(scope='col') Actions
                 tbody
-                    each user, i in users
-                        tr
-                            td= user.username
-                            td= user.role
-                            td= user.active
-                            td
-                                a.btn.btn-info.btn-fswf3(href="/admin/users/edit/"+user._id) Edit
-                                button.btn.btn-danger.btn-sm.delete-user(href='#', data-id=user._id) Delete
-                                //- if user.role!=='admin'
+                    each appUser, i in appUsers
+                        if appUser.username !== 'admin' 
+                            tr
+                                td= appUser.username
+                                td.center= appUser.team
+                                td.center= appUser.active
+                                td.center
+                                    if appUser.team !== 'admin' || user.team == 'admin'
+                                        a.btn.btn-info.btn-fswf3(href="/admin/users/edit/" + appUser._id) Edit
+                                        if appUser.username !== user.username
+                                            button.btn.btn-danger.btn-sm.delete-user(href='#', data-id = appUser._id) Delete

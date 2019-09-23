@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fastcsv = require('fast-csv');
 
 // Bring in models
 let Customer = require('../models/models_customer');
@@ -129,6 +130,32 @@ router.delete('/delete/:id', function (req,res) {
   });
 });
 
+router.post('/uploadFile', function(req,res){
+  if (!req.files) {
+    req.flash('danger alert-dismissible fade-in show', 'Please select a file to upload!');
+    // return res.status(400).send('No files were uploaded.');
+  } else {
+    console.log('File:', req.files.custfile);
+    let customerFile = req.files.custfile;
+    let customers = [];
+    fastcsv.fromString(customerFile.data.toString(), {
+      headers: true,
+      ignoreEmpty: true,
+    })
+    .on("data", function(data){
+      customers.push(data);
+    })
+    .on("end", function() {
+      console.log(customers);
+      Customer.insertMany(customers, function(err, records) {
+        if (err) {
+          throw err;
+        }
+      })
+      console.log('Upload to Mongo Complete!')
+    });
+  }
+});
 
 // Export statement
 module.exports=router;

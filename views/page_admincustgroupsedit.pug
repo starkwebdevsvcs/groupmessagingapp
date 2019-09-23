@@ -1,7 +1,7 @@
 extends page_layout2
 
 block content
-  if user && user.role=='admin'
+  if user && user.team !== 'staff'
         .container
             h1 #{title}
             br
@@ -10,8 +10,6 @@ block content
                     label(for='groupName') Customer Group:
                     input.form-control(class='mlen', name='groupName', type='text', placeholder='' value=group.name required)
                 //- br
-                //- input.btn.btn-success.btnSubmit(type="submit", value="Submit Changes")
-                //- button.btn.btn-info.btnReset(type='button' href='/admin/messages') Cancel
                 .form-row.col-sm-7
                     .form-row
                         .form-group

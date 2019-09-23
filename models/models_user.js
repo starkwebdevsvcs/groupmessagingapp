@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const UserSchema = mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
-    openpwd: { type: String, required: false },
-    role: { type: String, required: true },
+    // openpwd: { type: String, required: false },
+    team: { type: String, required: true },
     active: { type: Boolean, required: true }
 });
 

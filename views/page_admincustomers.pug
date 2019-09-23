@@ -1,7 +1,7 @@
 extends page_layout2
 
 block content
-    if user && user.role=='admin'
+    if user && user.team !== 'staff'
         .container
             h1 #{title}
             br
@@ -10,11 +10,11 @@ block content
             h6 To upload multiple customers at once, please set up a comma separated text file (.csv) or an Excel worksheet (.xls/.xlsx) with the following columns: phone/name/group/notes. The Phone number and Group are the only required items for each customer.
             h6 Current Customer Groups are: 
             br
-            form(role='form' method='POST' action='/admin/customers/addlist')
+            form(role='form' method='POST' action='/admin/customers/uploadFile' encType="multipart/form-data")
                 .form-group
-                    label(for='uploadPicture') Choose File (.csv or .xls file):
-                    input.form-control(type="file" class="mlen" name="uploadFile" accept=".csv,.xls,.xlsx")
-                input.btn.btn-success.btn-fswf1(type="submit", value="Upload List")
+                    label(for='uploadFile') Choose File (.csv or .xls file):
+                    input.form-control(type="file" class="mlen" name="custfile" accept=".csv,.xls,.xlsx")
+                input.btn.btn-success.btn-fswf1(type="submit", value="Upload File")
             br
             hr
         .container
@@ -42,7 +42,7 @@ block content
         .container
             br
             h4 Customer List:
-            table.table
+            table#customerTable.table.table-striped.table-bordered(style='width:100%')
                 thead
                     tr
                         th(scope='col') Phone #

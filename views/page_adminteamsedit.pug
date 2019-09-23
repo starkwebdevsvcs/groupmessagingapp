@@ -1,7 +1,7 @@
 extends page_layout2
 
 block content
-  if user && user.role=='admin'
+  if user && user.team !== 'staff'
         .container
             h1 #{title}
             br

@@ -23,8 +23,8 @@ router.use(bodyParser.urlencoded({ extended: false }));
                 from: env.TWILIO_NUM,
                 body: req.body.previewMessage
             })
-            .then(message => console.log(message));
-        req.flash('success alert-dismissible fade show', 'Your Reminder/Message was sent!');
+            .then(response => console.log(response));
+        req.flash('success alert-dismissible fade show', 'Your Message was sent to ' + req.body.previewPhone + '!');
         res.redirect('/messages/singlesend');
     });
 
@@ -42,13 +42,12 @@ router.use(bodyParser.urlencoded({ extended: false }));
                             body: req.body.previewMessage
                         })
                         .then(function(response) {
-                            console.log(message);  
+                            console.log(response);  
                         })
                 })
             }
         });
-        // after collection send is complete, then show success message
-        req.flash('success alert-dismissible fade show', 'Your Message was sent to the ' + req.body.messageGroup + ' .');
+        req.flash('success alert-dismissible fade show', 'Your Message was sent to the members of the ' + req.body.messageGroup + '  Group.');
         res.redirect('/messages/groupsend');
     });
 
@@ -57,7 +56,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
       let msgSID = {_id:req.params.id};
       console.log(msgSID._id);
       client.messages(msgSid._id).delete()
-        .then((message) => console.log(message))
+        .then((response) => console.log(response));
       //     if (message.status === 'delivered') {
       //       client.messages(msgSID).delete()
       //         .then(() => console.log("Message deleted"))

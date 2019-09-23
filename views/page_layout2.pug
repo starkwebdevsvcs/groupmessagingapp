@@ -20,13 +20,12 @@ html
                 ul.navbar-nav
                     if user
                         li.nav-item
-                            //- a.nav-link(href='/reminders') Reminders
                             a.nav-link(href='/messages/groupsend') Group Messages
                         li.nav-item
                             a.nav-link(href='/messages/singlesend') Single Messages
                         li.nav-item
                             a.nav-link(href='/messages/history') Sent Messages
-                        if user.role=='admin'
+                        if user.team !== 'staff'
                             li.nav-item
                                 a.nav-link(href='/admin/messages') Message Admin
                             li.nav-item

@@ -9,7 +9,6 @@ module.exports = function(passport){
     //Match single userName
     let query = {username:username};
     User.findOne(query, function(err, user){
-
       if(err) {
         // console.log(error);
         // throw err;

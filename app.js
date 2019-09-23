@@ -7,9 +7,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const expressValidator = require('express-validator');
-const flash = require('connect-flash');
+// const flash = require('connect-flash');
 const passport = require('passport');
-const moment = require('moment-timezone');
+// const moment = require('moment-timezone');
+const fileUpload = require('express-fileupload');
 require('dotenv').config(); //dotenv
 
 //For Timestamp messages in console
@@ -19,11 +20,11 @@ require('console-stamp')(console, 'HH:MM:ss');
 let app = express();
 let env = process.env;
 let db = mongoose.connection;
-let txtToPhone = '';
-let txtFullMsg = '';
-let twilioSID = '';
-let twilioStatus= '';
-let returnPage = '';
+// let txtToPhone = '';
+// let txtFullMsg = '';
+// let twilioSID = '';
+// let twilioStatus= '';
+// let returnPage = '';
 
 // Global App Variables
 app.locals.appVersion = '2019/09/06.v0.0.1';
@@ -89,8 +90,9 @@ app.use(express.static(path.join(__dirname, 'public')));
             };
         }
     }));
+    
 
-// Passport config
+    // Passport config
     require('./config/config_passport')(passport);
 
     // Passport Middleware
@@ -98,17 +100,13 @@ app.use(express.static(path.join(__dirname, 'public')));
     app.use(passport.session());
 
     app.get('*', function(req, res, next){
-      res.locals.user=req.user || null;
+      res.locals.user = req.user || null;
       next();
     })
 
+    app.use(fileUpload());
+
 // Routes
-// let groupddRouter = require('./routes/routes_groupdd');
-// let usersRouter = require('./routes/routes_users');
-// let histRouter = require('./routes/routes_history');
-// let remddRouter = require('./Archive/routes_reminderdd');
-// let rmndrRouter = require('./Archive/routes_reminders');
-// let twilioRouter = require('./routes/routes_twilio');
 let appRouter = require('./routes/routes_app');
 let loginRouter = require('./routes/routes_login');
 let messagesRouter = require('./routes/routes_messages');
@@ -120,11 +118,6 @@ let adminMessagesRouter = require('./routes/routes_adminmessages');
 let msgServiceRouter = require('./routes/routes_messageservice');
 
 // Route statements
-// app.use('/reminderdd', remddRouter);
-// app.use('/reminders', rmndrRouter);
-// app.use('/history', histRouter);
-// app.use('/groupdd', groupddRouter);
-// app.use('/twilio', twilioRouter);
 app.use('/msgservices', msgServiceRouter)
 app.use('/messages', messagesRouter);
 app.use('/login', loginRouter);

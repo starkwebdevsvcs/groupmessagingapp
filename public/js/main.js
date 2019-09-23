@@ -14,7 +14,7 @@ function enable () {
   deleteMessage();
   deleteTeam();
   deleteCustomer();
-  historyTable();
+  dataTableInits();
   dismissAlert();
   validateMessageFields();
   textareaCount();
@@ -143,9 +143,12 @@ function deleteMessage () {
       });
 }
 
-function historyTable() {
+function dataTableInits() {
     $('#historyTable').DataTable({
         "order": [[ 0, "desc" ]]
+    });
+    $('#customerTable').DataTable({
+        "order": [[ 0, "asc" ]]
     });
 }
 

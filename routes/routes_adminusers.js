@@ -12,7 +12,7 @@ let Team = require('../models/models_team');
 
 // DOM: Show 'Add a User' Page
 router.get('/', function(req,res){
-    User.find({}, function(err, users){
+    User.find({}, function(err, appUsers){
         if(err){
             console.log(err);
         } else {
@@ -22,7 +22,7 @@ router.get('/', function(req,res){
             } else {
                 res.render('page_adminusers', {
                     title: 'User Admin Page',
-                    users: users,
+                    appUsers: appUsers,
                     teams: teams,
                 });
             }
@@ -47,24 +47,24 @@ router.post('/add', function(req,res){
       });
   } else {
     // If no errors, create new user in DB
-    let user = new User();
-      user.name = req.body.name,
-      user.password = req.body.password,
-      user.team = req.body.team,
-      user.openpwd = req.body.password,
-      user.active = true,
+    let appUser = new User();
+      appUser.username = req.body.name,
+      appUser.password = req.body.password,
+      appUser.team = req.body.team,
+      // appUser.openpwd = req.body.password,
+      appUser.active = true,
     bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(user.password, salt, function (err, hash) {
+        bcrypt.hash(appUser.password, salt, function (err, hash) {
             if (err) {
                 console.log(err);
             }
-            user.password = hash;
-            user.save(function(err){
+            appUser.password = hash;
+            appUser.save(function(err){
               if(err){
                 console.log(err);
                 return;
               } else {
-                  req.flash('success alert-dismissible fade show', 'User ' + user.name + ' added!');
+                  req.flash('success alert-dismissible fade show', 'User ' + appUser.name + ' added!');
                   res.redirect('/admin/users');
                 }
             });
@@ -76,13 +76,13 @@ router.post('/add', function(req,res){
 
 //DOM: Show 'Edit a User' Page
 router.get('/edit/:id', function(req,res){
-  User.findById(req.params.id, function(err, user){
+  User.findById(req.params.id, function(err, appUser){
     Team.find({}, function(err, teams) {
       if(err) {
           console.log(err);
       } else {
         res.render('page_adminusersedit', {
-          userInForm: user,
+          userInForm: appUser,
           teams: teams,
           title: 'Edit a User'
         });
@@ -104,26 +104,26 @@ router.get('/edit/:id', function(req,res){
           errors: errors
         });
     } else {
-      let user = {};
-        user.username = req.body.username,
-        user.password = req.body.password,
-        user.role = req.body.role,
-        user.openpwd = req.body.password,
-        user.active = true,
+      let appUser = {};
+        appUser.username = req.body.username,
+        appUser.password = req.body.password,
+        appUser.team = req.body.team,
+        // appUser.openpwd = req.body.password,
+        appUser.active = true,
       bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(user.password, salt, function (err, hash) {
+        bcrypt.hash(appUser.password, salt, function (err, hash) {
           if (err) {
             console.log(err);
             return;
           } else {
-            user.password = hash;
+            appUser.password = hash;
             let query = {_id:req.params.id};
-            User.update(query, user, function (err) {
+            appUser.update(query, appUser, function (err) {
               if(err){
                 console.log(err);
                 return;
               } else {
-                  req.flash('success alert-dismissible fade show', 'User '+user.username+' Updated!');
+                  req.flash('success alert-dismissible fade show', 'User '+appUser.username+' Updated!');
                   res.redirect('/');
                 }
             });
@@ -146,18 +146,4 @@ router.delete('/delete/:id', function (req,res) {
   });
 });
 
-//DOM: Show 'User List' Page
-// router.get('/list', function(req,res){
-//   User.find({}, function(err, users){
-//     if(err){
-//       console.log(err);
-//     } else {
-//       res.render('page_userlist', {
-//         users: users
-//       });
-//     }
-//   })
-// });
-
-// Export statement
 module.exports=router;
