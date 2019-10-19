@@ -8,7 +8,8 @@ let env = process.env;
 let Customer = require('../models/models_customer');
 
 // Require the messaging module and create a REST client
-const msgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
+const singlemsgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
+const groupmsgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH).notify.services(env.TWILIO_NOTIFY_SERVICE_SID).notifications;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 router.use(bodyParser.json());
@@ -17,7 +18,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 // Routes
     // POST: Send a Message
     router.post('/singlesend', function(req, res) {
-        msgservice.messages
+        singlemsgservice.messages
             .create({
                 to: req.body.previewPhone,
                 from: env.TWILIO_NUM,
@@ -34,21 +35,39 @@ router.use(bodyParser.urlencoded({ extended: false }));
             if(err){
                 console.log(err);
             } else {
-                customers.forEach(function(cust) {
-                    msgservice.messages
-                        .create({
-                            to: cust.phone,
-                            from: env.TWILIO_NUM,
-                            body: req.body.previewMessage
-                        })
-                        .then(function(response) {
-                            console.log(response);  
-                        })
+                let bindings = customers.map(function(cust) {
+                    return JSON.stringify({
+                        binding_type: 'sms',
+                        address: cust.phone,
+                    })
                 })
+
+                groupmsgservice.create({
+                  toBindings: bindings,
+                  body: req.body.previewMessage
+                })
+                .then(function() {
+                    req.flash('success alert-dismissible fade show', 'Your Message was sent to the members of the ' + req.body.messageGroup + '  Group.');
+                    res.redirect('/messages/groupsend');            
+                })
+                .catch(function(err) {
+                    console.log('Group Send Error:', err)
+                    req.flash('success alert-dismissible fade show', 'Your Message to the ' + req.body.messageGroup + '  Group could not be sent.');
+                });
+                
+                // customers.forEach(function(cust) {
+                //     msgservice.messages
+                //         .create({
+                //             to: cust.phone,
+                //             from: env.TWILIO_NUM,
+                //             body: req.body.previewMessage
+                //         })
+                //         .then(function(response) {
+                //             console.log(response);  
+                //         })
+                // })
             }
         });
-        req.flash('success alert-dismissible fade show', 'Your Message was sent to the members of the ' + req.body.messageGroup + '  Group.');
-        res.redirect('/messages/groupsend');
     });
 
     // DELETE: Removes message from Twilio log
