@@ -3,23 +3,24 @@ body {
   font: 14px "Raleway", Helvetica, Arial, sans-serif;
   align-content: center;
 }
-/* standard FSWF blue */
+
 h1 {
    color: #178FB0;
 }
-/* standard FSWF orange */
+
 h2, h3, h4, h5, title {
     color: #e0a228;
 }
-/* standard FSWF orange */
+
 label {
     color: #e0a228;
     font-size: 16px;
 }
-/* standard FSWF blue */
+
 a {
   color: #178FB0;
 }
+
 th {
   color: #178FB0;
   font: 16px "Raleway", Helvetica, Arial, sans-serif;
@@ -190,4 +191,17 @@ td.center {
 
 .alert-dismissible .close {
   padding: 0.45rem 1.25rem;
+}
+
+#groupListContainer {
+  display: flex;
+  padding: 0;
+}
+
+#groupListLabel {
+  padding: 0;
+}
+
+#groupList {
+  display: contents;
 }

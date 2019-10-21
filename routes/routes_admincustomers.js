@@ -149,10 +149,14 @@ router.post('/uploadFile', function(req,res){
       console.log(customers);
       Customer.insertMany(customers, function(err, records) {
         if (err) {
-          throw err;
+          // throw err;
+          console.log(err);
+          res.redirect('/admin/customers');
+        } else {
+          console.log('Upload to Mongo Complete!')
+          res.redirect('/admin/customers');
         }
       })
-      console.log('Upload to Mongo Complete!')
     });
   }
 });

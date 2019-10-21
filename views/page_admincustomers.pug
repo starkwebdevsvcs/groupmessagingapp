@@ -7,8 +7,13 @@ block content
             br
             hr
             h4 Upload Customer List:
-            h6 To upload multiple customers at once, please set up a comma separated text file (.csv) or an Excel worksheet (.xls/.xlsx) with the following columns: phone/name/group/notes. The Phone number and Group are the only required items for each customer.
-            h6 Current Customer Groups are: 
+            h6 To upload multiple customers at once, please set up a comma separated text file (.csv) or an Excel worksheet (.xls/.xlsx) with the following columns and headers: phone, name, group, notes. The phone and group columns are the only required items for each customer record.
+            .col-12#groupListContainer
+                .col-3#groupListLabel
+                    h6 Current Customer Groups are:
+                .col-9#groupList
+                    each group, i in groups
+                        h6 #{group.name}&nbsp/&nbsp
             br
             form(role='form' method='POST' action='/admin/customers/uploadFile' encType="multipart/form-data")
                 .form-group

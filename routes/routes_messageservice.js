@@ -9,7 +9,7 @@ let Customer = require('../models/models_customer');
 
 // Require the messaging module and create a REST client
 const singlemsgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH);
-const groupmsgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH).notify.services(env.TWILIO_NOTIFY_SERVICE_SID).notifications;
+const groupmsgservice = require('twilio')(env.TWILIO_SID, env.TWILIO_AUTH).notify.services(env.TWILIO_NOTIFY_SERVICE_SID);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 router.use(bodyParser.json());
@@ -35,25 +35,44 @@ router.use(bodyParser.urlencoded({ extended: false }));
             if(err){
                 console.log(err);
             } else {
-                let bindings = customers.map(function(cust) {
-                    return JSON.stringify({
-                        binding_type: 'sms',
-                        address: cust.phone,
-                    })
-                })
+                // id = 0;
+                // let bindings = customers.map(function(cust) {
+                //     // id += 1;
+                //     return JSON.stringify({
+                //         identity: id,
+                //         binding_type: 'sms',
+                //         address: '+1'+ cust.phone,
+                //     })
+                // })
+                // console.log(bindings)
+                const notificationOpts = {
+                    toBinding: JSON.stringify({
+                      binding_type: 'sms',
+                      address: '+16232524833',
+                    }),
+                    body: 'Knock-Knock! This is your first Notify SMS',
+                };
 
-                groupmsgservice.create({
-                  toBindings: bindings,
-                  body: req.body.previewMessage
-                })
-                .then(function() {
-                    req.flash('success alert-dismissible fade show', 'Your Message was sent to the members of the ' + req.body.messageGroup + '  Group.');
-                    res.redirect('/messages/groupsend');            
-                })
-                .catch(function(err) {
-                    console.log('Group Send Error:', err)
-                    req.flash('success alert-dismissible fade show', 'Your Message to the ' + req.body.messageGroup + '  Group could not be sent.');
-                });
+                groupmsgservice.notifications
+                .create(notificationOpts)
+                .then(notification => console.log(notification.sid))
+                .catcch(error => console.log(error));
+
+                // groupmsgservice
+                // .create({
+                //   toBinding: bindings,
+                //   body: req.body.previewMessage
+                // })
+                // .then(function() {
+                //     req.flash('success alert-dismissible fade show', 'Your Message was sent to the members of the ' + req.body.messageGroup + '  Group.');
+                //     res.redirect('/messages/groupsend');            
+                // })
+                // .catch(function(err) {
+                //     throw err
+                //     console.log('Group Send Error:', err)
+                //     req.flash('success alert-dismissible fade show', 'Your Message to the ' + req.body.messageGroup + '  Group could not be sent.');
+                // })
+                // .done();
                 
                 // customers.forEach(function(cust) {
                 //     msgservice.messages
