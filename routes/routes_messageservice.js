@@ -36,27 +36,15 @@ router.use(bodyParser.urlencoded({ extended: false }));
                 console.log(err);
             } else {
                 // id = 0;
-                // let bindings = customers.map(function(cust) {
+                let bindings = customers.map(function(cust) {
                 //     // id += 1;
-                //     return JSON.stringify({
-                //         identity: id,
-                //         binding_type: 'sms',
-                //         address: '+1'+ cust.phone,
-                //     })
-                // })
-                // console.log(bindings)
-                const notificationOpts = {
-                    toBinding: JSON.stringify({
-                      binding_type: 'sms',
-                      address: '+16232524833',
-                    }),
-                    body: 'Knock-Knock! This is your first Notify SMS',
-                };
-
-                groupmsgservice.notifications
-                .create(notificationOpts)
-                .then(notification => console.log(notification.sid))
-                .catcch(error => console.log(error));
+                    return JSON.stringify({
+                        identity: cust.phone / 3,
+                        binding_type: 'sms',
+                        address: '+1'+ cust.phone,
+                    })
+                })
+                console.log(bindings)
 
                 // groupmsgservice
                 // .create({
@@ -85,6 +73,23 @@ router.use(bodyParser.urlencoded({ extended: false }));
                 //             console.log(response);  
                 //         })
                 // })
+                const notificationOpts = {
+                    toBinding: bindings,
+                    body: req.body.previewMessage,
+                };
+
+                groupmsgservice.notifications
+                .create(notificationOpts)
+                .then(notification => {
+                    console.log(notification.sid);
+                    req.flash('success alert-dismissible fade show', 'Your Message was sent to the members of the ' + req.body.messageGroup + '  Group.');
+                    res.redirect('/messages/groupsend');            
+                })
+                .catch(error => {
+                    console.log('Group Send Error:', error);
+                    req.flash('success alert-dismissible fade show', 'Your Message to the ' + req.body.messageGroup + '  Group could not be sent.');
+                    throw error;
+                });
             }
         });
     });
