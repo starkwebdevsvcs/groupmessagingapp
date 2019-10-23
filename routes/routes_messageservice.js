@@ -35,44 +35,20 @@ router.use(bodyParser.urlencoded({ extended: false }));
             if(err){
                 console.log(err);
             } else {
-                // id = 0;
                 let bindings = customers.map(function(cust) {
-                //     // id += 1;
+                    // let splitPhone = cust.phone.split("");
+                    // splitPhone.splice(2,4,'X','X','X','X')
+                    // console.log(splitPhone)
+                    // let ident = splitPhone.join("");
+                    // console.log(ident)
                     return JSON.stringify({
-                        identity: cust.phone / 3,
+                        identity: '+1' + cust.identity,
                         binding_type: 'sms',
                         address: '+1'+ cust.phone,
                     })
                 })
                 console.log(bindings)
 
-                // groupmsgservice
-                // .create({
-                //   toBinding: bindings,
-                //   body: req.body.previewMessage
-                // })
-                // .then(function() {
-                //     req.flash('success alert-dismissible fade show', 'Your Message was sent to the members of the ' + req.body.messageGroup + '  Group.');
-                //     res.redirect('/messages/groupsend');            
-                // })
-                // .catch(function(err) {
-                //     throw err
-                //     console.log('Group Send Error:', err)
-                //     req.flash('success alert-dismissible fade show', 'Your Message to the ' + req.body.messageGroup + '  Group could not be sent.');
-                // })
-                // .done();
-                
-                // customers.forEach(function(cust) {
-                //     msgservice.messages
-                //         .create({
-                //             to: cust.phone,
-                //             from: env.TWILIO_NUM,
-                //             body: req.body.previewMessage
-                //         })
-                //         .then(function(response) {
-                //             console.log(response);  
-                //         })
-                // })
                 const notificationOpts = {
                     toBinding: bindings,
                     body: req.body.previewMessage,

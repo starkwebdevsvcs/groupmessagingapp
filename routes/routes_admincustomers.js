@@ -138,25 +138,32 @@ router.post('/uploadFile', function(req,res){
     console.log('File:', req.files.custfile);
     let customerFile = req.files.custfile;
     let customers = [];
-    fastcsv.fromString(customerFile.data.toString(), {
+    fastcsv.parseString(customerFile.data.toString(), {
       headers: true,
       ignoreEmpty: true,
     })
     .on("data", function(data){
+      let splitPhone = data.phone.split("");
+      splitPhone.splice(2,4,'X','X','X','X')
+      splitPhone.splice(3,0,'-');
+      splitPhone.splice(7,0,'-');
+      data.identity = splitPhone.join("");
+      console.log(data)
       customers.push(data);
     })
     .on("end", function() {
       console.log(customers);
-      Customer.insertMany(customers, function(err, records) {
-        if (err) {
-          // throw err;
-          console.log(err);
-          res.redirect('/admin/customers');
-        } else {
-          console.log('Upload to Mongo Complete!')
-          res.redirect('/admin/customers');
-        }
-      })
+      
+    //   Customer.insertMany(customers, function(err, records) {
+    //     if (err) {
+    //       // throw err;
+    //       console.log(err);
+    //       res.redirect('/admin/customers');
+    //     } else {
+    //       console.log('Upload to Mongo Complete!')
+    //       res.redirect('/admin/customers');
+    //     }
+    //   })
     });
   }
 });
