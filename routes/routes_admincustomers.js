@@ -44,12 +44,18 @@ router.post('/add', function(req,res){
   } else {
     // If no errors, create new Customer in DB
     let customer = new Customer();
-    customer.phone = req.body.phone,
-    customer.group = req.body.group,
-    customer.name = req.body.name,
-    customer.notes = req.body.notes,
-    customer.active = true,
-    console.log('Customer:', customer)
+    customer.phone = req.body.phone;
+    customer.group = req.body.group;
+    customer.name = req.body.name;
+    customer.notes = req.body.notes;
+    customer.active = true;
+    let splitPhone = req.body.phone.split("");
+    splitPhone.splice(2,4,'X','X','X','X')
+    splitPhone.splice(3,0,'-');
+    splitPhone.splice(7,0,'-');
+    customer.identity = splitPhone.join("");
+
+    console.log('Customer:', customer);
     customer.save(function(err){
       if(err){
         console.log('Error:', err);
@@ -104,6 +110,12 @@ router.post('/edit/:id', function(req,res){
       customer.name = req.body.name;
       customer.notes = req.body.notes;
       customer.active = true;
+      let splitPhone = req.body.phone.split("");
+      splitPhone.splice(2,4,'X','X','X','X')
+      splitPhone.splice(3,0,'-');
+      splitPhone.splice(7,0,'-');
+      customer.identity = splitPhone.join("");
+  
       let query = {_id: req.params.id};
       Customer.updateOne(query, customer, function (err) {
           if(err){
@@ -117,7 +129,7 @@ router.post('/edit/:id', function(req,res){
   }
 });
   
-// DELETE: Removes a Team from the database
+// DELETE: Removes a Customer from the database
 router.delete('/delete/:id', function (req,res) {
   let query = {_id:req.params.id}
   Customer.deleteOne(query, function (err) {

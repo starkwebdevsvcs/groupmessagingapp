@@ -6,6 +6,7 @@ const CustomerSchema = mongoose.Schema({
     group: {type: String, required: true},
     name: {type: String, required: false},
     notes: {type: String, required: false},
+    identity: {type: String, required: true},
     active: {type: Boolean, required: false, default: true}
 });
 
