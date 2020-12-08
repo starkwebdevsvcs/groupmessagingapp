@@ -22,7 +22,7 @@
     "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
     "express-validator": "^5.3.0",
-    "fast-csv": "^3.4.0",
+    "fast-csv": "^4.3.6",
     "http-errors": "~1.6.2",
     "jquery": "^3.4.0",
     "jquery-confirm": "^3.3.2",
